@@ -1,52 +1,87 @@
-import java.util.HashMap;
-import java.util.Map;
+
+import commands.*;
+import manager.CollectionManager;
+import manager.Invoker;
+
 import java.util.Scanner;
 
-
-/// help : вывести справку по доступным командам
-/// info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)
-/// show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении
-/// insert null {element} : добавить новый элемент с заданным ключом
-/// update id {element} : обновить значение элемента коллекции, id которого равен заданному
-/// remove_key null : удалить элемент из коллекции по его ключу
-/// clear : очистить коллекцию
-/// save : сохранить коллекцию в файл
-/// execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
-/// exit : завершить программу (без сохранения в файл)
-/// remove_greater {element} : удалить из коллекции все элементы, превышающие заданный
-/// remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный
-/// replace_if_greater null {element} : заменить значение по ключу, если новое значение больше старого
-/// group_counting_by_manufacturer : сгруппировать элементы коллекции по значению поля manufacturer, вывести количество элементов в каждой группе
-/// count_greater_than_manufacturer manufacturer : вывести количество элементов, значение поля manufacturer которых больше заданного
-/// filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку
-
+/**
+ * Главный класс приложения.
+ * Запускает интерактивный режим управления коллекцией продуктов.
+ */
 public class Main {
-    private Map history = new HashMap();
-
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Main main = new Main();
+        System.out.println("=== Менеджер коллекции продуктов ===");
+        System.out.println("Для выхода введите 'exit' или нажмите Ctrl+D");
 
-        while (true) {
-            String input = sc.nextLine();
-            if (input.equals("help")) {
-                System.out.println("help info show");
-            }
 
-            main.history.put("help", new HelpCommand());
+        CollectionManager collectionManager = new CollectionManager();
 
-            if (input.equals("info")) {
-                System.out.println("...");
-            }
-            if (input.equals("show")) {
-                Command t = new HelpCommand();
-                Object[] command = main.history.values().stream().toArray();
+        try {
+            collectionManager.initialize();
+        } catch (RuntimeException e) {
+            System.err.println("Критическая ошибка: " + e.getMessage());
+            System.err.println("Убедитесь, что файл products.xml существует");
+            System.exit(1);
+        }
 
-//                System.out.println(main.history.values().stream().toArray(String[]::new));
-                for (int i = 0; i<command.length; i++) {
-                    System.out.println(command[i]);
+        Invoker invoker = new Invoker();
+
+        // регистрация команд
+        invoker.registerCommand("help", new HelpCommand(invoker.getCommandMap()));
+        invoker.registerCommand("info", new InfoCommand(collectionManager));
+        invoker.registerCommand("show", new ShowCommand(collectionManager));
+        invoker.registerCommand("insert", new InsertCommand(collectionManager));
+        invoker.registerCommand("update", new UpdateCommand(collectionManager));
+        invoker.registerCommand("remove_key", new RemoveKeyCommand(collectionManager));
+        invoker.registerCommand("clear", new ClearCommand(collectionManager));
+        invoker.registerCommand("save", new SaveCommand(collectionManager));
+        invoker.registerCommand("execute_script", new ExecuteScriptCommand(collectionManager, invoker));
+        invoker.registerCommand("exit", new ExitCommand());
+        invoker.registerCommand("remove_greater", new RemoveGreaterCommand(collectionManager));
+        invoker.registerCommand("remove_lower", new RemoveLowerCommand(collectionManager));
+        invoker.registerCommand("replace_if_greater", new ReplaceIfGreaterCommand(collectionManager));
+        invoker.registerCommand("group_counting_by_manufacturer", new GroupCountingByManufacturerCommand(collectionManager));
+        invoker.registerCommand("count_greater_than_manufacturer", new CountGreaterThanManufacturerCommand(collectionManager));
+        invoker.registerCommand("filter_contains_name", new FilterContainsNameCommand(collectionManager));
+
+        System.out.println("Программа запущена. Введите 'help' для списка команд.");
+
+
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.print("> ");
+
+            try {
+                // проверяем есть ли следующая строка (Ctrl+D вернет false)
+                if (!scanner.hasNextLine()) {
+                    System.out.println("\nПолучен сигнал EOF (Ctrl+D). Завершение работы...");
+                    break;
                 }
+
+                String input = scanner.nextLine();
+
+
+                if (input.trim().isEmpty()) {
+                    continue;
+                }
+
+                running = invoker.executeCommand(input);
+
+            } catch (java.util.NoSuchElementException e) {
+                // Ctrl+D может вызвать эту ошибку
+                System.out.println("\nПолучен сигнал EOF. Завершение работы...");
+                break;
+            } catch (Exception e) {
+                System.err.println("Ошибка при вводе: " + e.getMessage());
+                // пересоздаем сканер после ошибки
+                scanner = new Scanner(System.in);
             }
         }
+
+        System.out.println("Программа завершена.");
+        scanner.close();
     }
 }
