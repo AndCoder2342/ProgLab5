@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product>
+        <id>1</id>
+        <name>Телефон</name>
+        <price>50000</price>
+        <creationDate>1709856000000</creationDate>
+        <coordinates>
+            <x>100</x>
+            <y>200.5</y>
+        </coordinates>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+        <manufacturer>
+            <id>1</id>
+            <name>Apple</name>
+            <fullName>Apple Inc.</fullName>
+            <annualTurnover>1000000000</annualTurnover>
+            <employeesCount>150000</employeesCount>
+        </manufacturer>
+    </product>
+</products>
