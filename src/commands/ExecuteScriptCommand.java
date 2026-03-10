@@ -30,11 +30,11 @@ public class ExecuteScriptCommand implements Command {
             File file = new File(filename);
             if (!file.exists() || !file.canRead()) {
                 System.err.println("Ошибка: файл не найден или не доступен для чтения");
-                return false;
+                return true;
             }
 
             try (Scanner fileScanner = new Scanner(file)) {
-                // В методе execute() добавьте проверку:
+
                 while (fileScanner.hasNextLine()) {
                     String line = fileScanner.nextLine().trim();
                     if (line.isEmpty() || line.startsWith("#")) {
@@ -43,14 +43,14 @@ public class ExecuteScriptCommand implements Command {
                     System.out.println("Выполнение: " + line);
                     boolean continueExecution = invoker.executeCommand(line);
                     if (!continueExecution) {
-                        break; // Если команда вернула false (например exit)
+                        break;
                     }
                 }
             }
             return true;
         } catch (IOException e) {
             System.err.println("Ошибка при чтении скрипта: " + e.getMessage());
-            return false;
+            return true;
         }
     }
 

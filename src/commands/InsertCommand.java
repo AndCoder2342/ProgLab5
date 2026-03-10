@@ -24,7 +24,7 @@ public class InsertCommand implements Command {
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка при добавлении продукта: " + e.getMessage());
-            return false;
+            return true;
         }
     }
 

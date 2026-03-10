@@ -21,10 +21,14 @@ public class RemoveKeyCommand implements Command {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Введите ключ для удаления: ");
             Long key = Long.parseLong(scanner.nextLine().trim());
-            return manager.removeKey(key);
+            manager.removeKey(key);
+            return true;
         } catch (NumberFormatException e) {
             System.err.println("Ошибка: ключ должен быть числом");
-            return false;
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка: " + e.getMessage());
+            return true;
         }
     }
 

@@ -1,21 +1,97 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <products>
     <product>
-        <id>1</id>
-        <name>Телефон</name>
-        <price>50000</price>
-        <creationDate>1709856000000</creationDate>
+        <id>7</id>
+        <name>телевизор</name>
+        <price>4</price>
+        <creationDate>1773215637153</creationDate>
         <coordinates>
-            <x>100</x>
-            <y>200.5</y>
+            <x>-3</x>
+            <y>-0.0</y>
+        </coordinates>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+    </product>
+    <product>
+        <id>6</id>
+        <name>Ноутбук</name>
+        <price>300</price>
+        <creationDate>1773215580276</creationDate>
+        <coordinates>
+            <x>40</x>
+            <y>40.0</y>
+        </coordinates>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+    </product>
+    <product>
+        <id>5</id>
+        <name>стул</name>
+        <price>40</price>
+        <creationDate>1773215517742</creationDate>
+        <coordinates>
+            <x>40</x>
+            <y>40.0</y>
+        </coordinates>
+        <unitOfMeasure>MILLILITERS</unitOfMeasure>
+        <manufacturer>
+            <id>null</id>
+            <name>да</name>
+            <fullName>ад</fullName>
+            <annualTurnover>30</annualTurnover>
+            <employeesCount>3000</employeesCount>
+        </manufacturer>
+    </product>
+    <product>
+        <id>4</id>
+        <name>Холодильник</name>
+        <price>100000</price>
+        <creationDate>1773215472754</creationDate>
+        <coordinates>
+            <x>300</x>
+            <y>30.0</y>
         </coordinates>
         <unitOfMeasure>GRAMS</unitOfMeasure>
         <manufacturer>
+            <id>null</id>
+            <name>gorejine</name>
+            <fullName/>
+            <annualTurnover>200</annualTurnover>
+            <employeesCount>1</employeesCount>
+        </manufacturer>
+    </product>
+    <product>
+        <id>3</id>
+        <name>House</name>
+        <price>1000000</price>
+        <creationDate>1773215324587</creationDate>
+        <coordinates>
+            <x>875</x>
+            <y>3000.0</y>
+        </coordinates>
+        <unitOfMeasure>SQUARE_METERS</unitOfMeasure>
+        <manufacturer>
+            <id>null</id>
+            <name>DomStroy</name>
+            <fullName>OOO DomovoyStroitel`</fullName>
+            <annualTurnover>5000000000</annualTurnover>
+            <employeesCount>6000000</employeesCount>
+        </manufacturer>
+    </product>
+    <product>
+        <id>2</id>
+        <name>яблоко</name>
+        <price>500</price>
+        <creationDate>1773212938013</creationDate>
+        <coordinates>
+            <x>12</x>
+            <y>34.0</y>
+        </coordinates>
+        <unitOfMeasure>MILLILITERS</unitOfMeasure>
+        <manufacturer>
             <id>1</id>
-            <name>Apple</name>
-            <fullName>Apple Inc.</fullName>
-            <annualTurnover>1000000000</annualTurnover>
-            <employeesCount>150000</employeesCount>
+            <name>дерево</name>
+            <fullName>Яблоня</fullName>
+            <annualTurnover>30</annualTurnover>
+            <employeesCount>2</employeesCount>
         </manufacturer>
     </product>
 </products>

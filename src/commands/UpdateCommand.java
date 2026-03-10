@@ -30,10 +30,10 @@ public class UpdateCommand implements Command {
             return manager.update(id, newProduct);
         } catch (NumberFormatException e) {
             System.err.println("Ошибка: ID должен быть числом");
-            return false;
+            return true;
         } catch (Exception e) {
             System.err.println("Ошибка при обновлении: " + e.getMessage());
-            return false;
+            return true;
         }
     }
 

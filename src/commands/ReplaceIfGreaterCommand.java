@@ -30,7 +30,7 @@ public class ReplaceIfGreaterCommand implements Command {
             return manager.replaceIfGreater(id, newProduct);
         } catch (Exception e) {
             System.err.println("Ошибка: " + e.getMessage());
-            return false;
+            return true;
         }
     }
 

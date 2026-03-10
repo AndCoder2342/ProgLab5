@@ -34,7 +34,7 @@ public class FilterContainsNameCommand implements Command {
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка: " + e.getMessage());
-            return false;
+            return true;
         }
     }
 
