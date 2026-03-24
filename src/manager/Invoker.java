@@ -1,28 +1,3 @@
-//package manager;
-//
-//import commands.Command;
-//
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//public class Invoker {
-//    private Map<String, Command> commandMap = new HashMap<>();
-//
-//    public void regCommand(String name, Command command){
-//        commandMap.put(name, command);
-//    }
-//    public boolean startCommand(String key){
-//        commandMap.get(key).execute();
-//        return false;
-//    }
-//
-//    public Map<String, Command> getCommandMap() {
-//        return commandMap;
-//    }
-//}
-
-
-
 package manager;
 
 import commands.Command;
@@ -31,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Класс инвокер
+ * класс инвокер
  */
 public class Invoker {
     private final Map<String, Command> commandMap = new HashMap<>();

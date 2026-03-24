@@ -1,4 +1,3 @@
-
 package manager;
 
 import enums.UnitOfMeasure;
@@ -12,14 +11,14 @@ public class InputHelper {
     private static Scanner scanner = new Scanner(System.in);
 
     /**
-     * пересоздает сканер (нужно после EOF).
+     * пересоздает сканер (нужно после EOF)
      */
     public static void resetScanner() {
         scanner = new Scanner(System.in);
     }
 
     /**
-     * читает продукт с консоли.
+     * читает продукт с консоли
      */
     public static Product readProductFromConsole() {
         Product product = new Product();

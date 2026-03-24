@@ -1,8 +1,7 @@
-
 package commands;
 
 /**
- * команда завершения программы.
+ * команда завершения программы
  */
 public class ExitCommand implements Command {
     @Override

@@ -1,11 +1,10 @@
-
 package commands;
 
 import manager.CollectionManager;
 import manager.Product;
 
 /**
- * команда показа всех элементов коллекции.
+ * команда демонстрации всех элементов коллекции
  */
 public class ShowCommand implements Command {
     private final CollectionManager manager;

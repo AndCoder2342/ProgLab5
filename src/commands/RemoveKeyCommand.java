@@ -1,4 +1,3 @@
-
 package commands;
 
 import manager.CollectionManager;
@@ -6,7 +5,7 @@ import manager.CollectionManager;
 import java.util.Scanner;
 
 /**
- * команда удаления элемента по ключу.
+ * команда удаления элемента по ключу
  */
 public class RemoveKeyCommand implements Command {
     private final CollectionManager manager;

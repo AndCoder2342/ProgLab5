@@ -1,4 +1,3 @@
-
 package manager;
 
 import java.io.Serializable;

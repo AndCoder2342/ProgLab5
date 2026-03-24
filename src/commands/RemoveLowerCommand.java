@@ -1,4 +1,3 @@
-
 package commands;
 
 import manager.CollectionManager;
@@ -6,7 +5,7 @@ import manager.Product;
 import manager.InputHelper;
 
 /**
- * команда удаления элементов, меньших заданного.
+ * команда удаления элементов, меньших заданного
  */
 public class RemoveLowerCommand implements Command {
     private final CollectionManager manager;

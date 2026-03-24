@@ -1,4 +1,3 @@
-
 package commands;
 
 import manager.CollectionManager;
@@ -8,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * команда фильтрации по имени.
+ * команда фильтрации по имени
  */
 public class FilterContainsNameCommand implements Command {
     private final CollectionManager manager;

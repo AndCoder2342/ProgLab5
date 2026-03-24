@@ -1,13 +1,3 @@
-//package manager;
-//
-//public class Coordinates {
-//    private Integer x; //Максимальное значение поля: 875, Поле не может быть null
-//    private Float y; //Поле не может быть null
-//}
-
-
-
-
 package manager;
 
 import java.io.Serializable;

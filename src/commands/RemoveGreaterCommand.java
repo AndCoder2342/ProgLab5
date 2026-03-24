@@ -1,4 +1,3 @@
-
 package commands;
 
 import manager.CollectionManager;
@@ -6,7 +5,7 @@ import manager.Product;
 import manager.InputHelper;
 
 /**
- * команда удаления элементов, превышающих заданный.
+ * команда удаления элементов, превышающих заданный
  */
 public class RemoveGreaterCommand implements Command {
     private final CollectionManager manager;

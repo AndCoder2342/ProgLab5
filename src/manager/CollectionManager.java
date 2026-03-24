@@ -1,13 +1,3 @@
-//package manager;
-//
-//public class CollectionManager {
-//
-//    public void addItem(String input) {
-//    }
-//}
-
-
-
 package manager;
 
 import java.util.*;
@@ -84,7 +74,7 @@ public class CollectionManager {
     }
 
     /**
-     * очищает кололекцию
+     * очищает коллекцию
      */
     public void clear() {
         collection.clear();
@@ -92,7 +82,7 @@ public class CollectionManager {
     }
 
     /**
-     * информация о коллекции.
+     * информация о коллекции
      */
     public String getInfo() {
         StringBuilder sb = new StringBuilder();
@@ -124,7 +114,7 @@ public class CollectionManager {
     }
 
     /**
-     * удаляет продукты меньшие заданного
+     * удаляет продукты меньше заданного
      */
     public int removeLower(Product product) {
         List<Long> toRemove = collection.values().stream()
@@ -178,9 +168,7 @@ public class CollectionManager {
      * фильтрует
      */
     public List<Product> filterContainsName(String name) {
-        return collection.values().stream()
-                .filter(p -> p.getName().contains(name))
-                .collect(Collectors.toList());
+        return collection.values().stream().filter(p -> p.getName().contains(name)).collect(Collectors.toList());
     }
 
     public Hashtable<Long, Product> getCollection() {

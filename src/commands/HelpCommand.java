@@ -1,24 +1,3 @@
-//package commands;
-//
-//import java.util.Map;
-//
-//public class HelpCommand  implements Command {
-//    private String name;
-//    private Map commands;
-//    public HelpCommand() {
-//        this.name = name;
-//        this.commands = commands;
-//    }
-//    @Override
-//    public void execute() {}
-//    @Override
-//    public String toString() {
-//        return "";
-//    }
-//}
-
-
-
 package commands;
 
 import java.util.Map;

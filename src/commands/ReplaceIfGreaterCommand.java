@@ -1,4 +1,3 @@
-
 package commands;
 
 import manager.CollectionManager;
@@ -8,7 +7,7 @@ import manager.InputHelper;
 import java.util.Scanner;
 
 /**
- * команда замены элемента, если новый больше старого.
+ * команда замены элемента, если новый больше старого
  */
 public class ReplaceIfGreaterCommand implements Command {
     private final CollectionManager manager;
