@@ -2,6 +2,7 @@
 import commands.*;
 import manager.CollectionManager;
 import manager.Invoker;
+import manager.ScriptDepthTracker;
 
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Main {
         System.out.println("=== Менеджер коллекции продуктов ===");
         System.out.println("Для выхода введите 'exit' или нажмите Ctrl+D");
 
-
+        ScriptDepthTracker.reset();
         CollectionManager collectionManager = new CollectionManager();
 
         try {

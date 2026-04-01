@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * команда фильтрации по имени
+ * kоманда фильтрации по подстроке во всех полях
  */
 public class FilterContainsNameCommand implements Command {
     private final CollectionManager manager;
@@ -20,15 +20,20 @@ public class FilterContainsNameCommand implements Command {
     public boolean execute() {
         try {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Введите подстроку для поиска: ");
-            String name = scanner.nextLine().trim();
+            System.out.print("Введите подстроку для поиска (по всем полям): ");
+            String substring = scanner.nextLine().trim();
 
-            List<Product> result = manager.filterContainsName(name);
+            List<Product> result = manager.filterContainsName(substring);
+
             if (result.isEmpty()) {
                 System.out.println("Ничего не найдено");
             } else {
                 System.out.println("Найдено продуктов: " + result.size());
-                result.forEach(System.out::println);
+                System.out.println("========================================");
+                for (Product product : result) {
+                    System.out.println(product);
+                    System.out.println("----------------------------------------");
+                }
             }
             return true;
         } catch (Exception e) {
@@ -39,7 +44,7 @@ public class FilterContainsNameCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "вывести элементы, значение поля name которых содержит заданную подстроку";
+        return "вывести элементы, значение любого поля которых содержит заданную подстроку";
     }
 
     @Override

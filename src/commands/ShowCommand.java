@@ -1,7 +1,6 @@
 package commands;
 
 import manager.CollectionManager;
-import manager.Product;
 
 /**
  * команда демонстрации всех элементов коллекции
@@ -20,9 +19,7 @@ public class ShowCommand implements Command {
             return true;
         }
 
-        manager.getAll().stream()
-                .sorted()
-                .forEach(product -> System.out.println(product));
+        manager.getAll().stream().sorted().forEach(product -> System.out.println(product));
         return true;
     }
 

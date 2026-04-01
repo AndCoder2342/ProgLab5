@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * класс инвокер
+ * инвокер для управления командами.
  */
 public class Invoker {
     private final Map<String, Command> commandMap = new HashMap<>();
+    private String[] lastCommandArgs;
 
     /**
      * регистрирует команду
@@ -26,8 +27,12 @@ public class Invoker {
             return true;
         }
 
-        String[] parts = input.trim().split("\\s+", 2);
+        // разбиваем команду на части
+        String[] parts = input.trim().split("\\s+");
         String commandName = parts[0].toLowerCase();
+
+        // сохраняем аргументы команды
+        lastCommandArgs = parts;
 
         Command command = commandMap.get(commandName);
         if (command == null) {
@@ -46,7 +51,14 @@ public class Invoker {
     }
 
     /**
-     * возвращает мапу команд
+     * возвращает аргументы последней выполненной команды
+     */
+    public String[] getLastCommandArgs() {
+        return lastCommandArgs;
+    }
+
+    /**
+     * возвращает карту команд
      */
     public Map<String, Command> getCommandMap() {
         return commandMap;

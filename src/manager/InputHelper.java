@@ -35,22 +35,44 @@ public class InputHelper {
             product.setPrice(readInt("Введите цену (больше 0)", 1, Integer.MAX_VALUE));
 
 
-            System.out.println("Единицы измерения:");
+            System.out.println("Доступные единицы измерения:");
             for (UnitOfMeasure unit : UnitOfMeasure.values()) {
                 System.out.println("  " + unit.name());
             }
-            String unitStr = readString("Введите единицу измерения (или пустую строку для null)", true);
-            if (!unitStr.isEmpty()) {
+
+            int maxAttempts = 2;
+            int attempt = 0;
+            boolean unitSet = false;
+
+            while (attempt < maxAttempts && !unitSet) {
+                System.out.print("Введите единицу измерения (или пустую строку для null): ");
+                String unitStr = scanner.nextLine().trim();
+
+                if (unitStr.isEmpty()) {
+                    // пустая строка  это ок,тогда null
+                    break;
+                }
+
                 try {
                     product.setUnitOfMeasure(UnitOfMeasure.valueOf(unitStr.toUpperCase()));
+                    unitSet = true;
                 } catch (IllegalArgumentException e) {
-                    System.err.println("Неверная единица измерения, установлено null");
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода единицы измерения");
+                    }
+                    System.err.println("Ошибка: неверная единица измерения. Доступные значения:");
+                    for (UnitOfMeasure unit : UnitOfMeasure.values()) {
+                        System.out.println("  " + unit.name());
+                    }
+                    System.err.println("(попытка " + (attempt + 1) + " из " + maxAttempts + ")");
                 }
             }
 
 
             String orgChoice = readString("Ввести производителя? (да/нет)", false);
-            if (orgChoice.equalsIgnoreCase("да") || orgChoice.equalsIgnoreCase("yes")) {
+            if (orgChoice.equalsIgnoreCase("да") || orgChoice.equalsIgnoreCase("yes") || orgChoice.equalsIgnoreCase("y")) {
                 product.setManufacturer(readOrganization());
             }
 
@@ -121,7 +143,10 @@ public class InputHelper {
      * читает целое число с консоли с валидацией
      */
     private static int readInt(String prompt, Integer min, Integer max) {
-        while (true) {
+        int maxAttempts = 2;
+        int attempt = 0;
+
+        while (attempt < maxAttempts) {
             System.out.print(prompt + ": ");
 
             if (!scanner.hasNextLine()) {
@@ -131,7 +156,12 @@ public class InputHelper {
             String input = scanner.nextLine().trim();
 
             if (input.isEmpty()) {
-                System.err.println("введите число");
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите число (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
                 continue;
             }
 
@@ -139,27 +169,50 @@ public class InputHelper {
                 int value = Integer.parseInt(input);
 
                 if (min != null && value < min) {
-                    System.err.println("значение должно быть не меньше " + min);
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не меньше " + min +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
                     continue;
                 }
 
                 if (max != null && value > max) {
-                    System.err.println("значение должно быть не больше " + max);
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не больше " + max +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
                     continue;
                 }
 
                 return value;
             } catch (NumberFormatException e) {
-                System.err.println("введите корректное целое число");
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите корректное целое число (попытка " +
+                        (attempt + 1) + " из " + maxAttempts + ")");
             }
         }
+
+        throw new RuntimeException("Превышено количество попыток ввода");
     }
 
     /**
      * читает long с консоли с валидацией
      */
     private static long readLong(String prompt, Long min, Long max) {
-        while (true) {
+        int maxAttempts = 2;
+        int attempt = 0;
+
+        while (attempt < maxAttempts) {
             System.out.print(prompt + ": ");
 
             if (!scanner.hasNextLine()) {
@@ -169,7 +222,12 @@ public class InputHelper {
             String input = scanner.nextLine().trim();
 
             if (input.isEmpty()) {
-                System.err.println("введите число");
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите число (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
                 continue;
             }
 
@@ -177,20 +235,40 @@ public class InputHelper {
                 long value = Long.parseLong(input);
 
                 if (min != null && value < min) {
-                    System.err.println("значение должно быть не меньше " + min);
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не меньше " + min +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
                     continue;
                 }
 
                 if (max != null && value > max) {
-                    System.err.println("значение должно быть не больше " + max);
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не больше " + max +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
                     continue;
                 }
 
                 return value;
             } catch (NumberFormatException e) {
-                System.err.println("введите корректное число");
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите корректное число (попытка " +
+                        (attempt + 1) + " из " + maxAttempts + ")");
             }
         }
+
+        throw new RuntimeException("Превышено количество попыток ввода");
     }
 
     /**

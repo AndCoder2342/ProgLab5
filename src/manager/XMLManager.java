@@ -36,9 +36,21 @@ public class XMLManager {
 
         try {
             File file = new File(filepath);
+
             if (!file.exists()) {
-                System.out.println("Файл не найден. Создана новая коллекция.");
+                System.out.println("Файл не найден. Будет создан новый файл при первом сохранении.");
                 return collection;
+            }
+
+            if (!file.canRead()) {
+                System.err.println("ОШИБКА: Недостаточно прав для чтения файла: " + filepath);
+                System.err.println("Проверьте права доступа к файлу (chmod) или запустите программу с соответствующими правами");
+                throw new RuntimeException("Нет прав на чтение файла");
+            }
+
+            if (!file.isFile()) {
+                System.err.println("ОШИБКА: Указанный путь не является файлом: " + filepath);
+                throw new RuntimeException("Путь указывает не на файл");
             }
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -56,9 +68,34 @@ public class XMLManager {
             }
 
             System.out.println("Загружено " + collection.size() + " продуктов.");
-        } catch (Exception e) {
-            System.err.println("Ошибка при чтении файла: " + e.getMessage());
-            e.printStackTrace();
+
+        } catch (java.nio.file.AccessDeniedException e) {
+            System.err.println("ОШИБКА: Недостаточно прав для доступа к файлу: " + filepath);
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа (chmod) или запустите с нужными правами.");
+            throw new RuntimeException("Нет прав доступа к файлу");
+
+        } catch (java.io.FileNotFoundException e) {
+            System.err.println("ОШИБКА: Файл не найден: " + filepath);
+            System.err.println("Решение: Проверьте правильность пути к файлу.");
+            throw new RuntimeException("Файл не найден");
+
+        } catch (javax.xml.parsers.ParserConfigurationException e) {
+            System.err.println("ОШИБКА: Ошибка конфигурации XML парсера");
+            System.err.println("Причина: " + e.getMessage());
+            throw new RuntimeException("Ошибка XML парсера");
+
+        } catch (org.xml.sax.SAXException e) {
+            System.err.println("ОШИБКА: Ошибка разбора XML файла");
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте корректность XML структуры в файле.");
+            throw new RuntimeException("Ошибка разбора XML");
+
+        } catch (java.io.IOException e) {
+            System.err.println("ОШИБКА: Ошибка ввода-вывода при чтении файла");
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа и целостность файла.");
+            throw new RuntimeException("Ошибка чтения файла");
         }
 
         return collection;
@@ -129,6 +166,29 @@ public class XMLManager {
      */
     public void saveCollection(Hashtable<Long, Product> collection) {
         try {
+            File file = new File(filepath);
+
+            // Проверка прав на запись в директорию
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                System.err.println("ОШИБКА: Директория не существует: " + parentDir.getAbsolutePath());
+                System.err.println("Решение: Создайте директорию перед сохранением.");
+                throw new RuntimeException("Директория не существует");
+            }
+
+            if (parentDir != null && !parentDir.canWrite()) {
+                System.err.println("ОШИБКА: Недостаточно прав для записи в директорию: " + parentDir.getAbsolutePath());
+                System.err.println("Решение: Проверьте права доступа к директории (chmod).");
+                throw new RuntimeException("Нет прав на запись в директорию");
+            }
+
+            // Если файл существует, проверяем права на запись в него
+            if (file.exists() && !file.canWrite()) {
+                System.err.println("ОШИБКА: Недостаточно прав для записи в файл: " + filepath);
+                System.err.println("Решение: Проверьте права доступа к файлу (chmod +w) или запустите с нужными правами.");
+                throw new RuntimeException("Нет прав на запись в файл");
+            }
+
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.newDocument();
@@ -146,17 +206,41 @@ public class XMLManager {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
 
-            try (java.io.FileWriter writer = new java.io.FileWriter(filepath)) {
-                java.io.StringWriter stringWriter = new java.io.StringWriter();
-                StreamResult streamResult = new StreamResult(stringWriter);
+            // Используем FileWriter с явной кодировкой
+            try (java.io.OutputStreamWriter writer = new java.io.OutputStreamWriter(
+                    new java.io.FileOutputStream(filepath),
+                    java.nio.charset.StandardCharsets.UTF_8)) {
+
+                StreamResult streamResult = new StreamResult(writer);
                 transformer.transform(source, streamResult);
-                writer.write(stringWriter.toString());
             }
 
-            System.out.println("Коллекция сохранена в файл: " + filepath);
-        } catch (Exception e) {
-            System.err.println("Ошибка при сохранении файла: " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("✓ Коллекция успешно сохранена в файл: " + filepath);
+
+        } catch (java.nio.file.AccessDeniedException e) {
+            System.err.println("ОШИБКА: Недостаточно прав для записи в файл: " + filepath);
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа (chmod +w) или запустите с нужными правами.");
+            throw new RuntimeException("Нет прав на запись в файл");
+
+        } catch (java.io.FileNotFoundException e) {
+            System.err.println("ОШИБКА: Не удалось создать файл: " + filepath);
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа к директории.");
+            throw new RuntimeException("Не удалось создать файл");
+
+        } catch (TransformerException e) {
+            System.err.println("ОШИБКА: Ошибка при преобразовании XML");
+            System.err.println("Причина: " + e.getMessage());
+            throw new RuntimeException("Ошибка сохранения XML");
+
+        } catch (java.io.IOException e) {
+            System.err.println("ОШИБКА: Ошибка ввода-вывода при сохранении файла");
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа и наличие свободного места.");
+            throw new RuntimeException("Ошибка записи файла");
+        } catch (ParserConfigurationException e) {
+
         }
     }
 

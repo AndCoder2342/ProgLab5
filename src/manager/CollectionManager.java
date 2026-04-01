@@ -62,7 +62,7 @@ public class CollectionManager {
     }
 
     /**
-     * удаляет ключу
+     * удаляет по ключу
      */
     public boolean removeKey(Long key) {
         if (collection.remove(key) != null) {
@@ -165,10 +165,99 @@ public class CollectionManager {
     }
 
     /**
-     * фильтрует
+     * фильтрует продукты по подстроке во ВСЕХ полях
      */
-    public List<Product> filterContainsName(String name) {
-        return collection.values().stream().filter(p -> p.getName().contains(name)).collect(Collectors.toList());
+    public List<Product> filterContainsName(String substring) {
+        return collection.values().stream()
+                .filter(product -> containsInAnyField(product, substring))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * проверяет наличие подстроки в любом поле продукта
+     */
+    private boolean containsInAnyField(Product product, String substring) {
+        if (substring == null || substring.isEmpty()) {
+            return true;
+        }
+
+        String lowerSubstring = substring.toLowerCase();
+
+        // id
+        if (product.getId() != null && String.valueOf(product.getId()).contains(lowerSubstring)) {
+            return true;
+        }
+
+        // name
+        if (product.getName() != null && product.getName().toLowerCase().contains(lowerSubstring)) {
+            return true;
+        }
+
+        // coordinates
+        if (product.getCoordinates() != null) {
+            if (product.getCoordinates().getX() != null &&
+                    String.valueOf(product.getCoordinates().getX()).contains(lowerSubstring)) {
+                return true;
+            }
+            if (product.getCoordinates().getY() != null &&
+                    String.valueOf(product.getCoordinates().getY()).contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        // price
+        if (String.valueOf(product.getPrice()).contains(lowerSubstring)) {
+            return true;
+        }
+
+        // creationDate
+        if (product.getCreationDate() != null) {
+            String dateString = product.getCreationDate().toString().toLowerCase();
+            if (dateString.contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        // unitOfMeasure
+        if (product.getUnitOfMeasure() != null) {
+            String unitString = product.getUnitOfMeasure().name().toLowerCase();
+            if (unitString.contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        // manufacturer (Organization)
+        if (product.getManufacturer() != null) {
+            Organization org = product.getManufacturer();
+
+            // id организации
+            if (org.getId() != null && String.valueOf(org.getId()).contains(lowerSubstring)) {
+                return true;
+            }
+
+            // название организации
+            if (org.getName() != null && org.getName().toLowerCase().contains(lowerSubstring)) {
+                return true;
+            }
+
+            // полное название
+            if (org.getFullName() != null && org.getFullName().toLowerCase().contains(lowerSubstring)) {
+                return true;
+            }
+
+            // годовой оборот
+            if (org.getAnnualTurnover() != null &&
+                    String.valueOf(org.getAnnualTurnover()).contains(lowerSubstring)) {
+                return true;
+            }
+
+            // количество сотрудников
+            if (String.valueOf(org.getEmployeesCount()).contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Hashtable<Long, Product> getCollection() {
