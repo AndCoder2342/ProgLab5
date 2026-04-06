@@ -5,7 +5,7 @@ import manager.CollectionManager;
 /**
  * команда очистки коллекции
  */
-public class ClearCommand implements Command {
+public class ClearCommand implements commands.Command {
     private final CollectionManager manager;
 
     public ClearCommand(CollectionManager manager) {

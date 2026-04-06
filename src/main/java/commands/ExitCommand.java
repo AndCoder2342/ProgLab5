@@ -3,7 +3,7 @@ package commands;
 /**
  * команда завершения программы
  */
-public class ExitCommand implements Command {
+public class ExitCommand implements commands.Command {
     @Override
     public boolean execute() {
         System.out.println("Завершение программы...");

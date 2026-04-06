@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * команда выполнения скрипта
  */
-public class ExecuteScriptCommand implements Command {
+public class ExecuteScriptCommand implements commands.Command {
     private final CollectionManager manager;
     private final Invoker invoker;
 

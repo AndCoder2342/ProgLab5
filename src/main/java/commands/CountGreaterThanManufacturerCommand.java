@@ -7,7 +7,7 @@ import manager.InputHelper;
 /**
  * команда подсчета элементов с производителем больше заданногок
  */
-public class CountGreaterThanManufacturerCommand implements Command {
+public class CountGreaterThanManufacturerCommand implements commands.Command {
     private final CollectionManager manager;
 
     public CountGreaterThanManufacturerCommand(CollectionManager manager) {
