@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="26d9b93d-8522-49ac-b0aa-9ad52151143c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/products.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/client/ClientApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/client/console/ConsoleReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/client/network/UdpClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/Main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/allclasses-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/allpackages-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/element-list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/help-doc.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/index-all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/jquery-ui.overrides.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/legal/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/legal/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/legal/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/legal/jquery.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/legal/jqueryUI.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/member-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/module-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/overview-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/package-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/resources/glass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/resources/x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/script-dir/jquery-3.7.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/script-dir/jquery-ui.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/script-dir/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/stylesheet.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/tag-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/dock/type-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/Main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/allclasses-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/allpackages-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/element-list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/help-doc.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/index-all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/jquery-ui.overrides.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/legal/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/legal/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/legal/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/legal/jquery.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/legal/jqueryUI.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/member-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/module-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/overview-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/package-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/resources/glass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/resources/x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/script-dir/jquery-3.7.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/script-dir/jquery-ui.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/script-dir/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/stylesheet.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/tag-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/docs/type-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/server/ServerApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/server/commands/CommandExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/server/network/UdpServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/server/reliability/ReliabilityManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/shared/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/shared/CommandResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/shared/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/shared/RequestContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/shared/Response.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/shared/search/FieldPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/test_commands.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/test_level1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/test_level2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/livecoding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/products.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_dump.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reorganize_project.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/manager/CollectionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/manager/ScriptDepthTracker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/manager/XMLManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/Config.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/server/reliability/ReliabilityManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/resources/test_commands.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/resources/test_level1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/resources/test_level2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ClearCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/CountGreaterThanManufacturerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ExecuteScriptCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ExitCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/FilterContainsNameCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/GroupCountingByManufacturerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/HelpCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/InfoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/InsertCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveGreaterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveKeyCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveLowerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ReplaceIfGreaterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/SaveCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ShowCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/UpdateCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/enums/UnitOfMeasure.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/manager/Coordinates.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/manager/Organization.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/manager/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/CommandResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/Response.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/SerializationUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/search/FieldPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/show_project_tree.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/maven/archetype.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/main/java/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ProgLab5_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProgLab5.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/ClearCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/CountGreaterThanManufacturerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/CountGreaterThanManufacturerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/ExecuteScriptCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/ExecuteScriptCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/ExitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/ExitCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/FilterContainsNameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/FilterContainsNameCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/GroupCountingByManufacturerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/GroupCountingByManufacturerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/HelpCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/InfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/InfoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/InsertCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/InsertCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/RemoveGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/RemoveGreaterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/RemoveKeyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/RemoveKeyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/RemoveLowerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/RemoveLowerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/ReplaceIfGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/ReplaceIfGreaterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/SaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/SaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/ShowCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/ShowCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/UpdateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/commands/UpdateCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/UnitOfMeasure.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/enums/UnitOfMeasure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/CollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/CollectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/Coordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/Coordinates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/InputHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/InputHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/Invoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/Invoker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/Organization.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/Organization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/ScriptDepthTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/ScriptDepthTracker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/XMLManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/manager/XMLManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/products.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/products.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pruducts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/pruducts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/test_commands.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/test_level1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/test_level2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/test_level3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/test_level3.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ProgLab5-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/ClearCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/Command.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/CountGreaterThanManufacturerCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/ExecuteScriptCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/ExitCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/FilterContainsNameCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/GroupCountingByManufacturerCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/HelpCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/InfoCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/InsertCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/RemoveGreaterCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/RemoveKeyCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/RemoveLowerCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/ReplaceIfGreaterCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/SaveCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/ShowCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commands/UpdateCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/enums/UnitOfMeasure.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/CollectionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/Coordinates.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/InputHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/Invoker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/Organization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/Product.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/ScriptDepthTracker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/XMLManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/products.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/products.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pruducts.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test_commands.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test_level1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test_level2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test_level3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/test_level3.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "i11uha"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:AndCoder2342/ProgLab5.git",
+    "accountId": "cf1a11e5-d774-4367-8746-5e69b555a8dd"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="3DGC1DDhd2oe5CokgevEdejF0WZ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ClientApp.executor": "Run",
+    "Application.ServerApp.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/ilya/IdeaProjects/ProgLab5"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.ClientApp">
+    <configuration name="ClientApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.ClientApp" />
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.ServerApp" />
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ClientApp" />
+        <item itemvalue="Application.ServerApp" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="26d9b93d-8522-49ac-b0aa-9ad52151143c" name="Changes" comment="" />
+      <created>1777898802494</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1777898802494</updated>
+    </task>
+    <servers />
+  </component>
+</project>

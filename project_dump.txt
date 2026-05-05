@@ -1,0 +1,2304 @@
+
+
+====================
+FILE: src/main/java/Main.java
+====================
+
+
+import commands.*;
+import manager.CollectionManager;
+import manager.Invoker;
+import manager.ScriptDepthTracker;
+
+import java.util.Scanner;
+
+/**
+ * Запускает интерактивный режим управления коллекцией продуктов
+ */
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("=== Менеджер коллекции продуктов ===");
+        System.out.println("Для выхода введите 'exit' или нажмите Ctrl+D");
+
+        ScriptDepthTracker.reset();
+        CollectionManager collectionManager = new CollectionManager();
+
+        try {
+            collectionManager.initialize();
+        } catch (RuntimeException e) {
+            System.err.println("Критическая ошибка: " + e.getMessage());
+            System.err.println("Убедитесь, что файл products.xml существует");
+            System.exit(1);
+        }
+
+        Invoker invoker = new Invoker();
+
+        // регистрация команд
+        invoker.registerCommand("help", new HelpCommand(invoker.getCommandMap()));
+        invoker.registerCommand("info", new InfoCommand(collectionManager));
+        invoker.registerCommand("show", new ShowCommand(collectionManager));
+        invoker.registerCommand("insert", new InsertCommand(collectionManager));
+        invoker.registerCommand("update", new UpdateCommand(collectionManager));
+        invoker.registerCommand("remove_key", new RemoveKeyCommand(collectionManager));
+        invoker.registerCommand("clear", new ClearCommand(collectionManager));
+        invoker.registerCommand("save", new SaveCommand(collectionManager));
+        invoker.registerCommand("execute_script", new ExecuteScriptCommand(collectionManager, invoker));
+        invoker.registerCommand("exit", new ExitCommand());
+        invoker.registerCommand("remove_greater", new RemoveGreaterCommand(collectionManager));
+        invoker.registerCommand("remove_lower", new RemoveLowerCommand(collectionManager));
+        invoker.registerCommand("replace_if_greater", new ReplaceIfGreaterCommand(collectionManager));
+        invoker.registerCommand("group_counting_by_manufacturer", new GroupCountingByManufacturerCommand(collectionManager));
+        invoker.registerCommand("count_greater_than_manufacturer", new CountGreaterThanManufacturerCommand(collectionManager));
+        invoker.registerCommand("filter_contains_name", new FilterContainsNameCommand(collectionManager));
+
+        System.out.println("Программа запущена. Введите 'help' для списка команд.");
+
+
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.print("> ");
+
+            try {
+                // проверяем есть ли следующая строка (Ctrl+D вернет false)
+                if (!scanner.hasNextLine()) {
+                    System.out.println("\nПолучен сигнал EOF (Ctrl+D). Завершение работы...");
+                    break;
+                }
+
+                String input = scanner.nextLine();
+
+
+                if (input.trim().isEmpty()) {
+                    continue;
+                }
+
+                running = invoker.executeCommand(input);
+
+            } catch (java.util.NoSuchElementException e) {
+                // Ctrl+D может вызвать эту ошибку
+                System.out.println("\nПолучен сигнал EOF. Завершение работы...");
+                break;
+            } catch (Exception e) {
+                System.err.println("Ошибка при вводе: " + e.getMessage());
+                // пересоздаем сканер после ошибки
+                scanner = new Scanner(System.in);
+            }
+        }
+
+        System.out.println("Программа завершена.");
+        scanner.close();
+    }
+}
+
+====================
+FILE: src/main/java/commands/ClearCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+
+/**
+ * команда очистки коллекции
+ */
+public class ClearCommand implements commands.Command {
+    private final CollectionManager manager;
+
+    public ClearCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        manager.clear();
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "очистить коллекцию";
+    }
+
+    @Override
+    public String getName() {
+        return "clear";
+    }
+}
+
+====================
+FILE: src/main/java/commands/Command.java
+====================
+
+package commands;
+
+/**
+ * интерфейс команды
+ */
+public interface Command {
+    /**
+     * выполняет команду
+     * @return true если команда выполнена успешно
+     */
+    boolean execute();
+
+    /**
+     * возвращает описание команды
+     */
+    String getDescription();
+
+    /**
+     * возвращает имя команды
+     */
+    String getName();
+}
+
+====================
+FILE: src/main/java/commands/CountGreaterThanManufacturerCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Organization;
+import manager.InputHelper;
+
+/**
+ * команда подсчета элементов с производителем больше заданногок
+ */
+public class CountGreaterThanManufacturerCommand implements commands.Command {
+    private final CollectionManager manager;
+
+    public CountGreaterThanManufacturerCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            System.out.println("Введите организацию для сравнения:");
+            Organization org = InputHelper.readOrganization();
+            long count = manager.countGreaterThanManufacturer(org);
+            System.out.println("Количество элементов: " + count);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "вывести количество элементов, значение поля manufacturer которых больше заданного";
+    }
+
+    @Override
+    public String getName() {
+        return "count_greater_than_manufacturer";
+    }
+}
+
+====================
+FILE: src/main/java/commands/ExecuteScriptCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Invoker;
+import manager.ScriptDepthTracker;
+
+import java.io.File;
+import java.util.Scanner;
+
+/**
+ * команда выполнения скрипта
+ */
+public class ExecuteScriptCommand implements commands.Command {
+    private final CollectionManager manager;
+    private final Invoker invoker;
+
+    public ExecuteScriptCommand(CollectionManager manager, Invoker invoker) {
+        this.manager = manager;
+        this.invoker = invoker;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            String filename = null;
+
+            // проверяем есть ли аргумент команды
+            String[] args = invoker.getLastCommandArgs();
+            if (args != null && args.length > 1) {
+                filename = args[1].trim();
+            } else {
+                // если нет аргумента, запрашиваем интерактивно
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Введите путь к файлу скрипта: ");
+                filename = scanner.nextLine().trim();
+            }
+
+            if (filename == null || filename.isEmpty()) {
+                System.err.println("Ошибка: не указан путь к файлу скрипта");
+                return true;
+            }
+
+            File file = new File(filename);
+            if (!file.exists()) {
+                System.err.println("Ошибка: файл не найден: " + filename);
+                return true;
+            }
+
+            if (!file.canRead()) {
+                System.err.println("Ошибка: нет прав на чтение файла: " + filename);
+                return true;
+            }
+
+            // проверяем глубину рекурсии
+            if (!ScriptDepthTracker.enterScript()) {
+                System.err.println("Ошибка: превышена максимальная глубина вложенности скриптов (" +
+                        ScriptDepthTracker.MAX_DEPTH + ")");
+                ScriptDepthTracker.exitScript();
+                return true;
+            }
+
+            System.out.println("Выполнение скрипта: " + filename);
+
+            try (Scanner fileScanner = new Scanner(file)) {
+                while (fileScanner.hasNextLine()) {
+                    String line = fileScanner.nextLine().trim();
+
+                    // пропускаем пустые строки и комментарии
+                    if (line.isEmpty() || line.startsWith("#") || line.startsWith("//")) {
+                        continue;
+                    }
+
+                    System.out.println(">>> " + line);
+
+                    // выполняем команду
+                    boolean continueExecution = invoker.executeCommand(line);
+
+                    if (!continueExecution) {
+                        System.out.println("Скрипт завершён командой exit");
+                        break;
+                    }
+                }
+            }
+
+            ScriptDepthTracker.exitScript();
+            System.out.println("Скрипт завершён: " + filename);
+            return true;
+
+        } catch (Exception e) {
+            ScriptDepthTracker.exitScript();
+            System.err.println("Ошибка при выполнении скрипта: " + e.getMessage());
+            e.printStackTrace();
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "считать и исполнить скрипт из указанного файла (поддерживается вложенность до 3 уровней)";
+    }
+
+    @Override
+    public String getName() {
+        return "execute_script";
+    }
+}
+
+====================
+FILE: src/main/java/commands/ExitCommand.java
+====================
+
+package commands;
+
+/**
+ * команда завершения программы
+ */
+public class ExitCommand implements commands.Command {
+    @Override
+    public boolean execute() {
+        System.out.println("Завершение программы...");
+        return false; // Возвращаем false для выхода из цикла
+    }
+
+    @Override
+    public String getDescription() {
+        return "завершить программу (без сохранения в файл)";
+    }
+
+    @Override
+    public String getName() {
+        return "exit";
+    }
+}
+
+====================
+FILE: src/main/java/commands/FilterContainsNameCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Product;
+
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * kоманда фильтрации по подстроке во всех полях
+ */
+public class FilterContainsNameCommand implements Command {
+    private final CollectionManager manager;
+
+    public FilterContainsNameCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Введите подстроку для поиска (по всем полям): ");
+            String substring = scanner.nextLine().trim();
+
+            List<Product> result = manager.filterContainsName(substring);
+
+            if (result.isEmpty()) {
+                System.out.println("Ничего не найдено");
+            } else {
+                System.out.println("Найдено продуктов: " + result.size());
+                System.out.println("========================================");
+                for (Product product : result) {
+                    System.out.println(product);
+                    System.out.println("----------------------------------------");
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "вывести элементы, значение любого поля которых содержит заданную подстроку";
+    }
+
+    @Override
+    public String getName() {
+        return "filter_contains_name";
+    }
+}
+
+====================
+FILE: src/main/java/commands/GroupCountingByManufacturerCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+
+import java.util.Map;
+
+/**
+ * команда группировки по производителю.
+ */
+public class GroupCountingByManufacturerCommand implements Command {
+    private final CollectionManager manager;
+
+    public GroupCountingByManufacturerCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        Map<String, Long> groups = manager.groupCountingByManufacturer();
+        System.out.println("Группировка по производителю:");
+        groups.forEach((manufacturer, count) ->
+                System.out.println(manufacturer + ": " + count)
+        );
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "сгруппировать элементы коллекции по значению поля manufacturer";
+    }
+
+    @Override
+    public String getName() {
+        return "group_counting_by_manufacturer";
+    }
+}
+
+====================
+FILE: src/main/java/commands/HelpCommand.java
+====================
+
+package commands;
+
+import java.util.Map;
+
+/**
+ * команда помощи
+ */
+public class HelpCommand implements Command {
+    private final Map<String, Command> commands;
+
+    public HelpCommand(Map<String, Command> commands) {
+        this.commands = commands;
+    }
+
+    @Override
+    public boolean execute() {
+        System.out.println("Доступные команды:");
+        for (Map.Entry<String, Command> entry : commands.entrySet()) {
+            System.out.println(entry.getKey() + " - " + entry.getValue().getDescription());
+        }
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "вывести справку по доступным командам";
+    }
+
+    @Override
+    public String getName() {
+        return "help";
+    }
+}
+
+====================
+FILE: src/main/java/commands/InfoCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+
+/**
+ * команда вывода информации о коллекции
+ */
+public class InfoCommand implements Command {
+    private final CollectionManager manager;
+
+    public InfoCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        System.out.println(manager.getInfo());
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "вывести в стандартный поток вывода информацию о коллекции";
+    }
+
+    @Override
+    public String getName() {
+        return "info";
+    }
+}
+
+====================
+FILE: src/main/java/commands/InsertCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Product;
+import manager.InputHelper;
+
+/**
+ * команда добавления нового элементак
+ */
+public class InsertCommand implements Command {
+    private final CollectionManager manager;
+
+    public InsertCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            System.out.println("Добавление нового продукта:");
+            Product product = InputHelper.readProductFromConsole();
+            manager.insert(product);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка при добавлении продукта: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "добавить новый элемент с заданным ключом";
+    }
+
+    @Override
+    public String getName() {
+        return "insert";
+    }
+}
+
+====================
+FILE: src/main/java/commands/RemoveGreaterCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Product;
+import manager.InputHelper;
+
+/**
+ * команда удаления элементов, превышающих заданный
+ */
+public class RemoveGreaterCommand implements Command {
+    private final CollectionManager manager;
+
+    public RemoveGreaterCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            System.out.println("Введите продукт для сравнения:");
+            Product product = InputHelper.readProductFromConsole();
+            manager.removeGreater(product);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "удалить из коллекции все элементы, превышающие заданный";
+    }
+
+    @Override
+    public String getName() {
+        return "remove_greater";
+    }
+}
+
+====================
+FILE: src/main/java/commands/RemoveKeyCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+
+import java.util.Scanner;
+
+/**
+ * команда удаления элемента по ключу
+ */
+public class RemoveKeyCommand implements Command {
+    private final CollectionManager manager;
+
+    public RemoveKeyCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Введите ключ для удаления: ");
+            Long key = Long.parseLong(scanner.nextLine().trim());
+            manager.removeKey(key);
+            return true;
+        } catch (NumberFormatException e) {
+            System.err.println("Ошибка: ключ должен быть числом");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "удалить элемент из коллекции по его ключу";
+    }
+
+    @Override
+    public String getName() {
+        return "remove_key";
+    }
+}
+
+====================
+FILE: src/main/java/commands/RemoveLowerCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Product;
+import manager.InputHelper;
+
+/**
+ * команда удаления элементов, меньших заданного
+ */
+public class RemoveLowerCommand implements Command {
+    private final CollectionManager manager;
+
+    public RemoveLowerCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            System.out.println("Введите продукт для сравнения:");
+            Product product = InputHelper.readProductFromConsole();
+            manager.removeLower(product);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "удалить из коллекции все элементы, меньшие, чем заданный";
+    }
+
+    @Override
+    public String getName() {
+        return "remove_lower";
+    }
+}
+
+====================
+FILE: src/main/java/commands/ReplaceIfGreaterCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Product;
+import manager.InputHelper;
+
+import java.util.Scanner;
+
+/**
+ * команда замены элемента, если новый больше старого
+ */
+public class ReplaceIfGreaterCommand implements Command {
+    private final CollectionManager manager;
+
+    public ReplaceIfGreaterCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Введите ID продукта для замены: ");
+            Long id = Long.parseLong(scanner.nextLine().trim());
+
+            System.out.println("Введите новый продукт:");
+            Product newProduct = InputHelper.readProductFromConsole();
+
+            return manager.replaceIfGreater(id, newProduct);
+        } catch (Exception e) {
+            System.err.println("Ошибка: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "заменить значение по ключу, если новое значение больше старого";
+    }
+
+    @Override
+    public String getName() {
+        return "replace_if_greater";
+    }
+}
+
+====================
+FILE: src/main/java/commands/SaveCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+
+/**
+ * команда сохранения коллекции в файл
+ */
+public class SaveCommand implements Command {
+    private final CollectionManager manager;
+
+    public SaveCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        manager.save();
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "сохранить коллекцию в файл";
+    }
+
+    @Override
+    public String getName() {
+        return "save";
+    }
+}
+
+====================
+FILE: src/main/java/commands/ShowCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+
+/**
+ * команда демонстрации всех элементов коллекции
+ */
+public class ShowCommand implements Command {
+    private final CollectionManager manager;
+
+    public ShowCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        if (manager.getCollection().isEmpty()) {
+            System.out.println("Коллекция пуста");
+            return true;
+        }
+
+        manager.getAll().stream().sorted().forEach(product -> System.out.println(product));
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "вывести в стандартный поток вывода все элементы коллекции";
+    }
+
+    @Override
+    public String getName() {
+        return "show";
+    }
+}
+
+====================
+FILE: src/main/java/commands/UpdateCommand.java
+====================
+
+package commands;
+
+import manager.CollectionManager;
+import manager.Product;
+import manager.InputHelper;
+
+import java.util.Scanner;
+
+/**
+ * команда обновления элемента
+ */
+public class UpdateCommand implements Command {
+    private final CollectionManager manager;
+
+    public UpdateCommand(CollectionManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public boolean execute() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Введите ID продукта для обновления: ");
+            Long id = Long.parseLong(scanner.nextLine().trim());
+
+            System.out.println("Введите новые данные продукта:");
+            Product newProduct = InputHelper.readProductFromConsole();
+
+            return manager.update(id, newProduct);
+        } catch (NumberFormatException e) {
+            System.err.println("Ошибка: ID должен быть числом");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Ошибка при обновлении: " + e.getMessage());
+            return true;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "обновить значение элемента коллекции, id которого равен заданному";
+    }
+
+    @Override
+    public String getName() {
+        return "update";
+    }
+}
+
+====================
+FILE: src/main/java/enums/UnitOfMeasure.java
+====================
+
+package enums;
+
+public enum UnitOfMeasure {
+    SQUARE_METERS,
+    MILLILITERS,
+    GRAMS,
+    MILLIGRAMS;
+}
+
+====================
+FILE: src/main/java/manager/CollectionManager.java
+====================
+
+package manager;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * менеджер коллекции
+ * использует Hashtable
+ */
+public class CollectionManager {
+    private Hashtable<Long, Product> collection;
+    private Date initializationDate;
+    private XMLManager xmlManager;
+    private long nextId = 1;
+
+    public CollectionManager() {
+        this.collection = new Hashtable<>();
+        this.initializationDate = new Date();
+        this.xmlManager = new XMLManager();
+    }
+
+    /**
+     * инициализирует коллекцию из файла
+     */
+    public void initialize() {
+        collection = xmlManager.readCollection();
+        if (!collection.isEmpty()) {
+            nextId = collection.keySet().stream().max(Long::compareTo).orElse(0L) + 1;
+        }
+    }
+
+    /**
+     * сохраняет в файл
+     */
+    public void save() {
+        xmlManager.saveCollection(collection);
+    }
+
+    /**
+     * добавляет элемент
+     */
+    public void insert(Product product) {
+        product.setId(nextId++);
+        product.setCreationDate(new Date());
+        collection.put(product.getId(), product);
+        System.out.println("добавлен " + product.getId());
+    }
+
+    /**
+     * обновляет продукт по id
+     */
+    public boolean update(Long id, Product newProduct) {
+        if (collection.containsKey(id)) {
+            newProduct.setId(id);
+            newProduct.setCreationDate(collection.get(id).getCreationDate());
+            collection.put(id, newProduct);
+            System.out.println(id + " обновлен");
+            return true;
+        }
+        System.out.println(id + " не найден");
+        return false;
+    }
+
+    /**
+     * удаляет по ключу
+     */
+    public boolean removeKey(Long key) {
+        if (collection.remove(key) != null) {
+            System.out.println(key + " удален");
+            return true;
+        }
+        System.out.println(key + " не найден");
+        return false;
+    }
+
+    /**
+     * очищает коллекцию
+     */
+    public void clear() {
+        collection.clear();
+        System.out.println("Очищено");
+    }
+
+    /**
+     * информация о коллекции
+     */
+    public String getInfo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Тип коллекции: ").append(collection.getClass().getName()).append("\n");
+        sb.append("Дата инициализации: ").append(initializationDate).append("\n");
+        sb.append("Количество элементов: ").append(collection.size()).append("\n");
+        return sb.toString();
+    }
+
+    /**
+     * возвращает всё
+     */
+    public Collection<Product> getAll() {
+        return new ArrayList<>(collection.values());
+    }
+
+    /**
+     * удаляет продукты превышающие заданный
+     */
+    public int removeGreater(Product product) {
+        List<Long> toRemove = collection.values().stream()
+                .filter(p -> p.compareTo(product) > 0)
+                .map(Product::getId)
+                .collect(Collectors.toList());
+
+        toRemove.forEach(id -> collection.remove(id));
+        System.out.println("Удалено элементов: " + toRemove.size());
+        return toRemove.size();
+    }
+
+    /**
+     * удаляет продукты меньше заданного
+     */
+    public int removeLower(Product product) {
+        List<Long> toRemove = collection.values().stream()
+                .filter(p -> p.compareTo(product) < 0)
+                .map(Product::getId)
+                .collect(Collectors.toList());
+
+        toRemove.forEach(id -> collection.remove(id));
+        System.out.println("Удалено элементов: " + toRemove.size());
+        return toRemove.size();
+    }
+
+    /**
+     * заменяет продукт если новый больше старого
+     */
+    public boolean replaceIfGreater(Long key, Product newProduct) {
+        Product oldProduct = collection.get(key);
+        if (oldProduct != null && newProduct.compareTo(oldProduct) > 0) {
+            newProduct.setId(key);
+            newProduct.setCreationDate(oldProduct.getCreationDate());
+            collection.put(key, newProduct);
+            System.out.println("Продукт заменен");
+            return true;
+        }
+        System.out.println("новый продукт не больше старого");
+        return false;
+    }
+
+    /**
+     * группирует по производителю
+     */
+    public Map<String, Long> groupCountingByManufacturer() {
+        return collection.values().stream()
+                .collect(Collectors.groupingBy(
+                        p -> p.getManufacturer() != null ? p.getManufacturer().getName() : "null",
+                        Collectors.counting()
+                ));
+    }
+
+    /**
+     * считает продукты с производителем больше заданного
+     */
+    public long countGreaterThanManufacturer(Organization manufacturer) {
+        return collection.values().stream()
+                .filter(p -> p.getManufacturer() != null)
+                .filter(p -> p.getManufacturer().getName().compareTo(manufacturer.getName()) > 0)
+                .count();
+    }
+
+    /**
+     * фильтрует продукты по подстроке во ВСЕХ полях
+     */
+    public List<Product> filterContainsName(String substring) {
+        return collection.values().stream()
+                .filter(product -> containsInAnyField(product, substring))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * проверяет наличие подстроки в любом поле продукта
+     */
+    private boolean containsInAnyField(Product product, String substring) {
+        if (substring == null || substring.isEmpty()) {
+            return true;
+        }
+
+        String lowerSubstring = substring.toLowerCase();
+
+        // id
+        if (product.getId() != null && String.valueOf(product.getId()).contains(lowerSubstring)) {
+            return true;
+        }
+
+        // name
+        if (product.getName() != null && product.getName().toLowerCase().contains(lowerSubstring)) {
+            return true;
+        }
+
+        // coordinates
+        if (product.getCoordinates() != null) {
+            if (product.getCoordinates().getX() != null &&
+                    String.valueOf(product.getCoordinates().getX()).contains(lowerSubstring)) {
+                return true;
+            }
+            if (product.getCoordinates().getY() != null &&
+                    String.valueOf(product.getCoordinates().getY()).contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        // price
+        if (String.valueOf(product.getPrice()).contains(lowerSubstring)) {
+            return true;
+        }
+
+        // creationDate
+        if (product.getCreationDate() != null) {
+            String dateString = product.getCreationDate().toString().toLowerCase();
+            if (dateString.contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        // unitOfMeasure
+        if (product.getUnitOfMeasure() != null) {
+            String unitString = product.getUnitOfMeasure().name().toLowerCase();
+            if (unitString.contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        // manufacturer (Organization)
+        if (product.getManufacturer() != null) {
+            Organization org = product.getManufacturer();
+
+            // id организации
+            if (org.getId() != null && String.valueOf(org.getId()).contains(lowerSubstring)) {
+                return true;
+            }
+
+            // название организации
+            if (org.getName() != null && org.getName().toLowerCase().contains(lowerSubstring)) {
+                return true;
+            }
+
+            // полное название
+            if (org.getFullName() != null && org.getFullName().toLowerCase().contains(lowerSubstring)) {
+                return true;
+            }
+
+            // годовой оборот
+            if (org.getAnnualTurnover() != null &&
+                    String.valueOf(org.getAnnualTurnover()).contains(lowerSubstring)) {
+                return true;
+            }
+
+            // количество сотрудников
+            if (String.valueOf(org.getEmployeesCount()).contains(lowerSubstring)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Hashtable<Long, Product> getCollection() {
+        return collection;
+    }
+}
+
+====================
+FILE: src/main/java/manager/Coordinates.java
+====================
+
+package manager;
+
+import java.io.Serializable;
+
+/**
+ * класс представляющий координаты
+ */
+public class Coordinates implements Serializable {
+    private Integer x; //Максимальное значение поля: 875, Поле не может быть null
+    private Float y; //Поле не может быть null
+
+    /**
+     * валидация с установкой х
+     */
+    public void setX(Integer x) {
+        if (x == null) {
+            throw new IllegalArgumentException("X не может быть null");
+        }
+        if (x > 875) {
+            throw new IllegalArgumentException("X не может быть больше 875");
+        }
+        this.x = x;
+    }
+
+    /**
+     * валидация с установкой y
+     */
+    public void setY(Float y) {
+        if (y == null) {
+            throw new IllegalArgumentException("Y не может быть null");
+        }
+        this.y = y;
+    }
+
+    public Integer getX() { return x; }
+    public Float getY() { return y; }
+
+    @Override
+    public String toString() {
+        return "{" + x + ", " + y + "}";
+    }
+}
+
+====================
+FILE: src/main/java/manager/InputHelper.java
+====================
+
+package manager;
+
+import enums.UnitOfMeasure;
+
+import java.util.Scanner;
+
+/**
+ * вспомогательный класс для ввода данных с консоли
+ */
+public class InputHelper {
+    private static Scanner scanner = new Scanner(System.in);
+
+    /**
+     * пересоздает сканер (нужно после EOF)
+     */
+    public static void resetScanner() {
+        scanner = new Scanner(System.in);
+    }
+
+    /**
+     * читает продукт с консоли
+     */
+    public static Product readProductFromConsole() {
+        Product product = new Product();
+
+        try {
+
+            product.setName(readString("Введите название", false));
+
+
+            System.out.println("Ввод координат:");
+            product.setCoordinates(readCoordinates());
+
+
+            product.setPrice(readInt("Введите цену (больше 0)", 1, Integer.MAX_VALUE));
+
+
+            System.out.println("Доступные единицы измерения:");
+            for (UnitOfMeasure unit : UnitOfMeasure.values()) {
+                System.out.println("  " + unit.name());
+            }
+
+            int maxAttempts = 2;
+            int attempt = 0;
+            boolean unitSet = false;
+
+            while (attempt < maxAttempts && !unitSet) {
+                System.out.print("Введите единицу измерения (или пустую строку для null): ");
+                String unitStr = scanner.nextLine().trim();
+
+                if (unitStr.isEmpty()) {
+                    // пустая строка  это ок,тогда null
+                    break;
+                }
+
+                try {
+                    product.setUnitOfMeasure(UnitOfMeasure.valueOf(unitStr.toUpperCase()));
+                    unitSet = true;
+                } catch (IllegalArgumentException e) {
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода единицы измерения");
+                    }
+                    System.err.println("Ошибка: неверная единица измерения. Доступные значения:");
+                    for (UnitOfMeasure unit : UnitOfMeasure.values()) {
+                        System.out.println("  " + unit.name());
+                    }
+                    System.err.println("(попытка " + (attempt + 1) + " из " + maxAttempts + ")");
+                }
+            }
+
+
+            String orgChoice = readString("Ввести производителя? (да/нет)", false);
+            if (orgChoice.equalsIgnoreCase("да") || orgChoice.equalsIgnoreCase("yes") || orgChoice.equalsIgnoreCase("y")) {
+                product.setManufacturer(readOrganization());
+            }
+
+            return product;
+        } catch (java.util.NoSuchElementException e) {
+            System.out.println("\nВвод прерван (Ctrl+D)");
+            resetScanner();
+            throw new RuntimeException("Ввод прерван пользователем");
+        }
+    }
+
+    /**
+     * читает координаты с консоли
+     */
+    private static Coordinates readCoordinates() {
+        Coordinates coords = new Coordinates();
+        coords.setX(readInt("Введите координату X (макс. 875)", null, 875));
+        coords.setY(readFloat("Введите координату Y"));
+        return coords;
+    }
+
+    /**
+     * читает организацию с консоли
+     */
+    public static Organization readOrganization() {
+        Organization org = new Organization();
+
+        try {
+            org.setName(readString("Введите название", false));
+            org.setFullName(readString("Введите полное название (или пустую строку)", true));
+            org.setAnnualTurnover(readLong("Введите годовой оборот (больше 0)", 1L, Long.MAX_VALUE));
+            org.setEmployeesCount(readInt("Введите количество сотрудников (больше 0)", 1, Integer.MAX_VALUE));
+
+            return org;
+        } catch (java.util.NoSuchElementException e) {
+            System.out.println("\nВвод прерван (Ctrl+D)");
+            resetScanner();
+            throw new RuntimeException("Ввод прерван пользователем");
+        }
+    }
+
+    /**
+     * читает строку с консоли с валидацией
+     */
+    private static String readString(String prompt, boolean allowEmpty) {
+        while (true) {
+            System.out.print(prompt + ": ");
+
+            if (!scanner.hasNextLine()) {
+                throw new java.util.NoSuchElementException("EOF получен");
+            }
+
+            String input = scanner.nextLine().trim();
+
+            if (allowEmpty && input.isEmpty()) {
+                return "";
+            }
+
+            if (!input.isEmpty()) {
+                return input;
+            }
+
+            System.err.println("Ошибка: поле не может быть пустым");
+        }
+    }
+
+    /**
+     * читает целое число с консоли с валидацией
+     */
+    private static int readInt(String prompt, Integer min, Integer max) {
+        int maxAttempts = 2;
+        int attempt = 0;
+
+        while (attempt < maxAttempts) {
+            System.out.print(prompt + ": ");
+
+            if (!scanner.hasNextLine()) {
+                throw new java.util.NoSuchElementException("EOF получен");
+            }
+
+            String input = scanner.nextLine().trim();
+
+            if (input.isEmpty()) {
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите число (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
+                continue;
+            }
+
+            try {
+                int value = Integer.parseInt(input);
+
+                if (min != null && value < min) {
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не меньше " + min +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
+                    continue;
+                }
+
+                if (max != null && value > max) {
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не больше " + max +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
+                    continue;
+                }
+
+                return value;
+            } catch (NumberFormatException e) {
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите корректное целое число (попытка " +
+                        (attempt + 1) + " из " + maxAttempts + ")");
+            }
+        }
+
+        throw new RuntimeException("Превышено количество попыток ввода");
+    }
+
+    /**
+     * читает long с консоли с валидацией
+     */
+    private static long readLong(String prompt, Long min, Long max) {
+        int maxAttempts = 2;
+        int attempt = 0;
+
+        while (attempt < maxAttempts) {
+            System.out.print(prompt + ": ");
+
+            if (!scanner.hasNextLine()) {
+                throw new java.util.NoSuchElementException("EOF получен");
+            }
+
+            String input = scanner.nextLine().trim();
+
+            if (input.isEmpty()) {
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите число (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
+                continue;
+            }
+
+            try {
+                long value = Long.parseLong(input);
+
+                if (min != null && value < min) {
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не меньше " + min +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
+                    continue;
+                }
+
+                if (max != null && value > max) {
+                    attempt++;
+                    if (attempt >= maxAttempts) {
+                        System.err.println("Ошибка: превышено количество попыток ввода");
+                        throw new RuntimeException("Превышено количество попыток ввода числа");
+                    }
+                    System.err.println("Ошибка: значение должно быть не больше " + max +
+                            " (попытка " + (attempt + 1) + " из " + maxAttempts + ")");
+                    continue;
+                }
+
+                return value;
+            } catch (NumberFormatException e) {
+                attempt++;
+                if (attempt >= maxAttempts) {
+                    System.err.println("Ошибка: превышено количество попыток ввода");
+                    throw new RuntimeException("Превышено количество попыток ввода числа");
+                }
+                System.err.println("Ошибка: введите корректное число (попытка " +
+                        (attempt + 1) + " из " + maxAttempts + ")");
+            }
+        }
+
+        throw new RuntimeException("Превышено количество попыток ввода");
+    }
+
+    /**
+     * читает float с консоли с валидацией
+     */
+    private static float readFloat(String prompt) {
+        while (true) {
+            System.out.print(prompt + ": ");
+
+            if (!scanner.hasNextLine()) {
+                throw new java.util.NoSuchElementException("EOF получен");
+            }
+
+            String input = scanner.nextLine().trim();
+
+            if (input.isEmpty()) {
+                System.err.println("введите число");
+                continue;
+            }
+
+            try {
+                return Float.parseFloat(input);
+            } catch (NumberFormatException e) {
+                System.err.println("введите корректное число");
+            }
+        }
+    }
+}
+
+====================
+FILE: src/main/java/manager/Invoker.java
+====================
+
+package manager;
+
+import commands.Command;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * инвокер для управления командами.
+ */
+public class Invoker {
+    private final Map<String, Command> commandMap = new HashMap<>();
+    private String[] lastCommandArgs;
+
+    /**
+     * регистрирует команду
+     */
+    public void registerCommand(String name, Command command) {
+        commandMap.put(name.toLowerCase(), command);
+    }
+
+    /**
+     * выполняет команду по строке ввода
+     */
+    public boolean executeCommand(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            return true;
+        }
+
+        // разбиваем команду на части
+        String[] parts = input.trim().split("\\s+");
+        String commandName = parts[0].toLowerCase();
+
+        // сохраняем аргументы команды
+        lastCommandArgs = parts;
+
+        Command command = commandMap.get(commandName);
+        if (command == null) {
+            System.err.println("Неизвестная команда: " + commandName);
+            System.out.println("Введите 'help' для списка команд");
+            return true;
+        }
+
+        try {
+            return command.execute();
+        } catch (Exception e) {
+            System.err.println("Ошибка при выполнении команды: " + e.getMessage());
+            e.printStackTrace();
+            return true;
+        }
+    }
+
+    /**
+     * возвращает аргументы последней выполненной команды
+     */
+    public String[] getLastCommandArgs() {
+        return lastCommandArgs;
+    }
+
+    /**
+     * возвращает карту команд
+     */
+    public Map<String, Command> getCommandMap() {
+        return commandMap;
+    }
+}
+
+====================
+FILE: src/main/java/manager/Organization.java
+====================
+
+package manager;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * класс представляющий организацию
+ */
+public class Organization implements Serializable {
+    private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private String name; //Поле не может быть null, Строка не может быть пустой
+    private String fullName; //Поле может быть null
+    private Long annualTurnover; //Поле не может быть null, Значение поля должно быть больше 0
+    private int employeesCount; //Значение поля должно быть больше 0
+
+    /**
+     * валидация и устанавка id
+     */
+    public void setId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID не может быть null");
+        }
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID должно быть больше 0");
+        }
+        this.id = id;
+    }
+
+    /**
+     * валидация и устанавка имени
+     */
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Имя не может быть null или пустым");
+        }
+        this.name = name.trim();
+    }
+
+    /**
+     * валидация и устанавка годовоого оборота
+     */
+    public void setAnnualTurnover(Long annualTurnover) {
+        if (annualTurnover == null) {
+            throw new IllegalArgumentException("Годовой оборот не может быть null");
+        }
+        if (annualTurnover <= 0) {
+            throw new IllegalArgumentException("Годовой оборот должен быть больше 0");
+        }
+        this.annualTurnover = annualTurnover;
+    }
+
+    /**
+     * валидация и устанавка кол-во сотрудников
+     */
+    public void setEmployeesCount(int employeesCount) {
+        if (employeesCount <= 0) {
+            throw new IllegalArgumentException("Количество сотрудников должно быть больше 0");
+        }
+        this.employeesCount = employeesCount;
+    }
+
+    public Integer getId() { return id; }
+    public String getName() { return name; }
+    public String getFullName() { return fullName; }
+    public Long getAnnualTurnover() { return annualTurnover; }
+    public int getEmployeesCount() { return employeesCount; }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", annualTurnover=" + annualTurnover +
+                ", employeesCount=" + employeesCount +
+                '}';
+    }
+}
+
+====================
+FILE: src/main/java/manager/Product.java
+====================
+
+package manager;
+
+import enums.UnitOfMeasure;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+
+/**
+ * класс представляющий продукт
+ * реализует Comparable для сортировки по умолчанию (по id)
+ */
+public class Product implements Comparable<Product>, Serializable {
+    private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private String name; //Поле не может быть null, Строка не может быть пустой
+    private Coordinates coordinates; //Поле не может быть null
+    private Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private int price; //Значение поля должно быть больше 0
+    private UnitOfMeasure unitOfMeasure; //Поле может быть null
+    private Organization manufacturer; //Поле может быть null
+
+    public Product() {
+        this.creationDate = new Date();
+    }
+
+    /**
+     * валидация и устанавка id
+     */
+    public void setId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID не может быть null");
+        }
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID должно быть больше 0");
+        }
+        this.id = id;
+    }
+
+    /**
+     * валидация и устанавка имени
+     */
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Имя не может быть null или пустым");
+        }
+        this.name = name.trim();
+    }
+
+    /**
+     * валидация и устанавка координат
+     */
+    public void setCoordinates(Coordinates coordinates) {
+        if (coordinates == null) {
+            throw new IllegalArgumentException("Координаты не могут быть null");
+        }
+        this.coordinates = coordinates;
+    }
+
+    /**
+     * валидация и устанавка цены
+     */
+    public void setPrice(int price) {
+        if (price <= 0) {
+            throw new IllegalArgumentException("Цена должна быть больше 0");
+        }
+        this.price = price;
+    }
+
+    // гетеры
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public Coordinates getCoordinates() { return coordinates; }
+    public Date getCreationDate() { return creationDate; }
+    public int getPrice() { return price; }
+    public UnitOfMeasure getUnitOfMeasure() { return unitOfMeasure; }
+    public Organization getManufacturer() { return manufacturer; }
+
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+
+    public void setManufacturer(Organization manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    @Override
+    public int compareTo(Product other) {
+        if (other == null) return 1;
+        return this.id.compareTo(other.id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", price=" + price +
+                ", unitOfMeasure=" + unitOfMeasure +
+                ", manufacturer=" + (manufacturer != null ? manufacturer.getName() : "null") +
+                '}';
+    }
+}
+
+====================
+FILE: src/main/java/manager/ScriptDepthTracker.java
+====================
+
+package manager;
+
+/**
+ * трекер глубины вложенности скриптов
+ */
+public class ScriptDepthTracker {
+    private static int currentDepth = 0;
+    public static final int MAX_DEPTH = 3;
+
+    /**
+     * увеличивает счётчик глубины
+     * @return true если глубина не превышена
+     */
+    public static boolean enterScript() {
+        if (currentDepth >= MAX_DEPTH) {
+            return false;
+        }
+        currentDepth++;
+        System.out.println("[Глубина рекурсии: " + currentDepth + " из " + MAX_DEPTH + "]");
+        return true;
+    }
+
+    /**
+     * уменьшает счётчик глубины
+     */
+    public static void exitScript() {
+        if (currentDepth > 0) {
+            currentDepth--;
+        }
+    }
+
+    /**
+     * возвращает текущую глубину
+     */
+    public static int getCurrentDepth() {
+        return currentDepth;
+    }
+
+    /**
+     * сбрасывает счётчик
+     */
+    public static void reset() {
+        currentDepth = 0;
+    }
+}
+
+====================
+FILE: src/main/java/manager/XMLManager.java
+====================
+
+package manager;
+
+import enums.UnitOfMeasure;
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.util.Hashtable;
+
+/**
+ * менеджер для работы с xml
+ */
+public class XMLManager {
+    private String filepath;
+
+
+
+    public XMLManager() {
+        this.filepath = System.getenv("PRODUCTS_FILE_PATH");
+
+        // Если переменная не установлена, используем путь по умолчанию
+        if (filepath == null || filepath.isEmpty()) {
+            this.filepath = "products.xml";
+            System.out.println("Предупреждение: PRODUCTS_FILE_PATH не установлен, используем: " + filepath);
+        }
+    }
+
+    /**
+     * читает коллекцию продуктов из XML файла
+     * @return Hashtable с продуктами
+     */
+    public Hashtable<Long, Product> readCollection() {
+        Hashtable<Long, Product> collection = new Hashtable<>();
+
+        try {
+            File file = new File(filepath);
+
+            if (!file.exists()) {
+                System.out.println("Файл не найден. Будет создан новый файл при первом сохранении.");
+                return collection;
+            }
+
+            if (!file.canRead()) {
+                System.err.println("ОШИБКА: Недостаточно прав для чтения файла: " + filepath);
+                System.err.println("Проверьте права доступа к файлу (chmod) или запустите программу с соответствующими правами");
+                throw new RuntimeException("Нет прав на чтение файла");
+            }
+
+            if (!file.isFile()) {
+                System.err.println("ОШИБКА: Указанный путь не является файлом: " + filepath);
+                throw new RuntimeException("Путь указывает не на файл");
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(file);
+
+            NodeList productList = doc.getElementsByTagName("product");
+
+            for (int i = 0; i < productList.getLength(); i++) {
+                Element productElement = (Element) productList.item(i);
+                Product product = parseProduct(productElement);
+                if (product != null) {
+                    collection.put(product.getId(), product);
+                }
+            }
+
+            System.out.println("Загружено " + collection.size() + " продуктов.");
+
+        } catch (java.nio.file.AccessDeniedException e) {
+            System.err.println("ОШИБКА: Недостаточно прав для доступа к файлу: " + filepath);
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа (chmod) или запустите с нужными правами.");
+            throw new RuntimeException("Нет прав доступа к файлу");
+
+        } catch (java.io.FileNotFoundException e) {
+            System.err.println("ОШИБКА: Файл не найден: " + filepath);
+            System.err.println("Решение: Проверьте правильность пути к файлу.");
+            throw new RuntimeException("Файл не найден");
+
+        } catch (javax.xml.parsers.ParserConfigurationException e) {
+            System.err.println("ОШИБКА: Ошибка конфигурации XML парсера");
+            System.err.println("Причина: " + e.getMessage());
+            throw new RuntimeException("Ошибка XML парсера");
+
+        } catch (org.xml.sax.SAXException e) {
+            System.err.println("ОШИБКА: Ошибка разбора XML файла");
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте корректность XML структуры в файле.");
+            throw new RuntimeException("Ошибка разбора XML");
+
+        } catch (java.io.IOException e) {
+            System.err.println("ОШИБКА: Ошибка ввода-вывода при чтении файла");
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа и целостность файла.");
+            throw new RuntimeException("Ошибка чтения файла");
+        }
+
+        return collection;
+    }
+
+    private Product parseProduct(Element element) {
+        try {
+            Product product = new Product();
+            product.setId(Long.parseLong(getElementValue(element, "id")));
+            product.setName(getElementValue(element, "name"));
+            product.setPrice(Integer.parseInt(getElementValue(element, "price")));
+            product.setCreationDate(new java.util.Date(Long.parseLong(getElementValue(element, "creationDate"))));
+
+
+            Element coordsElement = (Element) element.getElementsByTagName("coordinates").item(0);
+            if (coordsElement != null) {
+                Coordinates coords = new Coordinates();
+                coords.setX(Integer.parseInt(getElementValue(coordsElement, "x")));
+                coords.setY(Float.parseFloat(getElementValue(coordsElement, "y")));
+                product.setCoordinates(coords);
+            }
+
+
+            String unitStr = getElementValue(element, "unitOfMeasure");
+            if (unitStr != null && !unitStr.isEmpty() && !unitStr.equals("null")) {
+                product.setUnitOfMeasure(UnitOfMeasure.valueOf(unitStr));
+            }
+
+            Element orgElement = (Element) element.getElementsByTagName("manufacturer").item(0);
+            if (orgElement != null) {
+                Organization org = parseOrganization(orgElement);
+                product.setManufacturer(org);
+            }
+
+            return product;
+        } catch (Exception e) {
+            System.err.println("Ошибка при разборе продукта: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private Organization parseOrganization(Element element) {
+        try {
+            Organization org = new Organization();
+            org.setId(Integer.parseInt(getElementValue(element, "id")));
+            org.setName(getElementValue(element, "name"));
+            org.setFullName(getElementValue(element, "fullName"));
+            org.setAnnualTurnover(Long.parseLong(getElementValue(element, "annualTurnover")));
+            org.setEmployeesCount(Integer.parseInt(getElementValue(element, "employeesCount")));
+            return org;
+        } catch (Exception e) {
+            System.err.println("Ошибка при разборе организации: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private String getElementValue(Element parent, String tagName) {
+        NodeList list = parent.getElementsByTagName(tagName);
+        if (list.getLength() > 0) {
+            return list.item(0).getTextContent();
+        }
+        return "";
+    }
+
+    /**
+     * сохраняет коллекцию в xml файл
+     * @param collection коллекция для сохранения
+     */
+    public void saveCollection(Hashtable<Long, Product> collection) {
+        try {
+            File file = new File(filepath);
+
+            // Проверка прав на запись в директорию
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                System.err.println("ОШИБКА: Директория не существует: " + parentDir.getAbsolutePath());
+                System.err.println("Решение: Создайте директорию перед сохранением.");
+                throw new RuntimeException("Директория не существует");
+            }
+
+            if (parentDir != null && !parentDir.canWrite()) {
+                System.err.println("ОШИБКА: Недостаточно прав для записи в директорию: " + parentDir.getAbsolutePath());
+                System.err.println("Решение: Проверьте права доступа к директории (chmod).");
+                throw new RuntimeException("Нет прав на запись в директорию");
+            }
+
+            // Если файл существует, проверяем права на запись в него
+            if (file.exists() && !file.canWrite()) {
+                System.err.println("ОШИБКА: Недостаточно прав для записи в файл: " + filepath);
+                System.err.println("Решение: Проверьте права доступа к файлу (chmod +w) или запустите с нужными правами.");
+                throw new RuntimeException("Нет прав на запись в файл");
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.newDocument();
+
+            Element root = doc.createElement("products");
+            doc.appendChild(root);
+
+            for (Product product : collection.values()) {
+                Element productElement = createProductElement(doc, product);
+                root.appendChild(productElement);
+            }
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            DOMSource source = new DOMSource(doc);
+
+            // Используем FileWriter с явной кодировкой
+            try (java.io.OutputStreamWriter writer = new java.io.OutputStreamWriter(
+                    new java.io.FileOutputStream(filepath),
+                    java.nio.charset.StandardCharsets.UTF_8)) {
+
+                StreamResult streamResult = new StreamResult(writer);
+                transformer.transform(source, streamResult);
+            }
+
+            System.out.println("✓ Коллекция успешно сохранена в файл: " + filepath);
+
+        } catch (java.nio.file.AccessDeniedException e) {
+            System.err.println("ОШИБКА: Недостаточно прав для записи в файл: " + filepath);
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа (chmod +w) или запустите с нужными правами.");
+            throw new RuntimeException("Нет прав на запись в файл");
+
+        } catch (java.io.FileNotFoundException e) {
+            System.err.println("ОШИБКА: Не удалось создать файл: " + filepath);
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа к директории.");
+            throw new RuntimeException("Не удалось создать файл");
+
+        } catch (TransformerException e) {
+            System.err.println("ОШИБКА: Ошибка при преобразовании XML");
+            System.err.println("Причина: " + e.getMessage());
+            throw new RuntimeException("Ошибка сохранения XML");
+
+        } catch (java.io.IOException e) {
+            System.err.println("ОШИБКА: Ошибка ввода-вывода при сохранении файла");
+            System.err.println("Причина: " + e.getMessage());
+            System.err.println("Решение: Проверьте права доступа и наличие свободного места.");
+            throw new RuntimeException("Ошибка записи файла");
+        } catch (ParserConfigurationException e) {
+
+        }
+    }
+
+    private Element createProductElement(Document doc, Product product) {
+        Element productElement = doc.createElement("product");
+
+        productElement.appendChild(createElement(doc, "id", String.valueOf(product.getId())));
+        productElement.appendChild(createElement(doc, "name", product.getName()));
+        productElement.appendChild(createElement(doc, "price", String.valueOf(product.getPrice())));
+        productElement.appendChild(createElement(doc, "creationDate", String.valueOf(product.getCreationDate().getTime())));
+
+
+        if (product.getCoordinates() != null) {
+            Element coordsElement = doc.createElement("coordinates");
+            coordsElement.appendChild(createElement(doc, "x", String.valueOf(product.getCoordinates().getX())));
+            coordsElement.appendChild(createElement(doc, "y", String.valueOf(product.getCoordinates().getY())));
+            productElement.appendChild(coordsElement);
+        }
+
+
+        if (product.getUnitOfMeasure() != null) {
+            productElement.appendChild(createElement(doc, "unitOfMeasure", product.getUnitOfMeasure().name()));
+        } else {
+            productElement.appendChild(createElement(doc, "unitOfMeasure", "null"));
+        }
+
+
+        if (product.getManufacturer() != null) {
+            Element orgElement = createOrganizationElement(doc, product.getManufacturer());
+            productElement.appendChild(orgElement);
+        }
+
+        return productElement;
+    }
+
+    private Element createOrganizationElement(Document doc, Organization org) {
+        Element orgElement = doc.createElement("manufacturer");
+        orgElement.appendChild(createElement(doc, "id", String.valueOf(org.getId())));
+        orgElement.appendChild(createElement(doc, "name", org.getName()));
+        orgElement.appendChild(createElement(doc, "fullName", org.getFullName() != null ? org.getFullName() : "null"));
+        orgElement.appendChild(createElement(doc, "annualTurnover", String.valueOf(org.getAnnualTurnover())));
+        orgElement.appendChild(createElement(doc, "employeesCount", String.valueOf(org.getEmployeesCount())));
+        return orgElement;
+    }
+
+    private Element createElement(Document doc, String tag, String value) {
+        Element element = doc.createElement(tag);
+        element.setTextContent(value);
+        return element;
+    }
+}
+
+====================
+FILE: src/main/resources/products.xml
+====================
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<products>
+    <product>
+        <id>10</id>
+        <name>pineapple</name>
+        <price>2</price>
+        <creationDate>1774693162709</creationDate>
+        <coordinates>
+            <x>0</x>
+            <y>0.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+        <manufacturer>
+            <id>null</id>
+            <name>melon</name>
+            <fullName>0</fullName>
+            <annualTurnover>1</annualTurnover>
+            <employeesCount>4</employeesCount>
+        </manufacturer>
+    </product>
+    <product>
+        <id>9</id>
+        <name>banana</name>
+        <price>123</price>
+        <creationDate>1774693014173</creationDate>
+        <coordinates>
+            <x>123</x>
+            <y>123.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+    </product>
+    <product>
+        <id>8</id>
+        <name>apple</name>
+        <price>123</price>
+        <creationDate>1774692977486</creationDate>
+        <coordinates>
+            <x>123</x>
+            <y>123.0</y>
+        </coordinates>
+        <unitOfMeasure>MILLILITERS</unitOfMeasure>
+        <manufacturer>
+            <id>null</id>
+            <name>banana</name>
+            <fullName>banana apple pineapple melon pear grape orange lime lemon</fullName>
+            <annualTurnover>123</annualTurnover>
+            <employeesCount>123</employeesCount>
+        </manufacturer>
+    </product>
+    <product>
+        <id>7</id>
+        <name>телевизор</name>
+        <price>4</price>
+        <creationDate>1773215637153</creationDate>
+        <coordinates>
+            <x>-3</x>
+            <y>-0.0</y>
+        </coordinates>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+    </product>
+    <product>
+        <id>6</id>
+        <name>Ноутбук</name>
+        <price>300</price>
+        <creationDate>1773215580276</creationDate>
+        <coordinates>
+            <x>40</x>
+            <y>40.0</y>
+        </coordinates>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+    </product>
+    <product>
+        <id>5</id>
+        <name>стул</name>
+        <price>40</price>
+        <creationDate>1773215517742</creationDate>
+        <coordinates>
+            <x>40</x>
+            <y>40.0</y>
+        </coordinates>
+        <unitOfMeasure>MILLILITERS</unitOfMeasure>
+    </product>
+    <product>
+        <id>4</id>
+        <name>Холодильник</name>
+        <price>100000</price>
+        <creationDate>1773215472754</creationDate>
+        <coordinates>
+            <x>300</x>
+            <y>30.0</y>
+        </coordinates>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+    </product>
+    <product>
+        <id>3</id>
+        <name>House</name>
+        <price>1000000</price>
+        <creationDate>1773215324587</creationDate>
+        <coordinates>
+            <x>875</x>
+            <y>3000.0</y>
+        </coordinates>
+        <unitOfMeasure>SQUARE_METERS</unitOfMeasure>
+    </product>
+    <product>
+        <id>2</id>
+        <name>яблоко</name>
+        <price>500</price>
+        <creationDate>1773212938013</creationDate>
+        <coordinates>
+            <x>12</x>
+            <y>34.0</y>
+        </coordinates>
+        <unitOfMeasure>MILLILITERS</unitOfMeasure>
+        <manufacturer>
+            <id>1</id>
+            <name>дерево</name>
+            <fullName>Яблоня</fullName>
+            <annualTurnover>30</annualTurnover>
+            <employeesCount>2</employeesCount>
+        </manufacturer>
+    </product>
+</products>
+
+
+====================
+FILE: src/main/resources/pruducts.xml
+====================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product>
+        <id>1</id>
+        <name>Телефон</name>
+        <price>50000</price>
+        <creationDate>1709856000000</creationDate>
+        <coordinates>
+            <x>100</x>
+            <y>200.5</y>
+        </coordinates>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+        <manufacturer>
+            <id>1</id>
+            <name>Apple</name>
+            <fullName>Apple Inc.</fullName>
+            <annualTurnover>1000000000</annualTurnover>
+            <employeesCount>150000</employeesCount>
+        </manufacturer>
+    </product>
+</products>

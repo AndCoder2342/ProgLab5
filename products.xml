@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<products>
+    <product>
+        <id>5</id>
+        <name>mandarin</name>
+        <price>12</price>
+        <creationDate>1777961291895</creationDate>
+        <coordinates>
+            <x>2</x>
+            <y>12.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+    </product>
+    <product>
+        <id>4</id>
+        <name>orange</name>
+        <price>123</price>
+        <creationDate>1777919790020</creationDate>
+        <coordinates>
+            <x>123</x>
+            <y>123.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+    </product>
+    <product>
+        <id>3</id>
+        <name>orange</name>
+        <price>123</price>
+        <creationDate>1775632307015</creationDate>
+        <coordinates>
+            <x>123</x>
+            <y>123.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+    </product>
+    <product>
+        <id>2</id>
+        <name>pineapple</name>
+        <price>123</price>
+        <creationDate>1775632283409</creationDate>
+        <coordinates>
+            <x>123</x>
+            <y>123.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+    </product>
+</products>
