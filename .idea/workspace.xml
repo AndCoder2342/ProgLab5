@@ -84,6 +84,12 @@
       <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/test_level1.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/resources/test_level2.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/target/classes/client/console/ConsoleReader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/target/classes/client/network/UdpClient.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/livecoding.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/products.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/project_dump.txt" afterDir="false" />
@@ -100,6 +106,12 @@
       <change afterPath="$PROJECT_DIR$/server/src/main/resources/test_commands.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/server/src/main/resources/test_level1.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/server/src/main/resources/test_level2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/Config.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/ServerApp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager$PendingResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/pom.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ClearCommand.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/Command.java" afterDir="false" />
@@ -120,26 +132,55 @@
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/commands/UpdateCommand.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/enums/UnitOfMeasure.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/manager/Coordinates.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/manager/InputHelper.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/manager/Organization.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/manager/Product.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/CommandResult.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/RequestContext.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/Response.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/SerializationUtil.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/shared/src/main/java/shared/search/FieldPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/ClearCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/Command.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/CountGreaterThanManufacturerCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/ExecuteScriptCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/ExitCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/FilterContainsNameCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/GroupCountingByManufacturerCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/HelpCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/InfoCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/InsertCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/RemoveGreaterCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/RemoveKeyCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/RemoveLowerCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/ReplaceIfGreaterCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/SaveCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/ShowCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/commands/UpdateCommand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/manager/InputHelper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/shared/CommandResult.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/shared/Request.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/shared/RequestContext.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/shared/Response.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/shared/SerializationUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/target/classes/shared/search/FieldPath.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/show_project_tree.sh" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/maven/archetype.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/pom.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/main/java/App.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/archetype.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/src/main/java/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/ProgLab5_jar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProgLab5.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/backup_2026-05-04_143139/src/main/java/Main.java" afterDir="false" />
@@ -196,15 +237,15 @@
       <change beforePath="$PROJECT_DIR$/target/classes/commands/SaveCommand.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/commands/ShowCommand.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/commands/UpdateCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/enums/UnitOfMeasure.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/manager/CollectionManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/manager/Coordinates.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/enums/UnitOfMeasure.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/enums/UnitOfMeasure.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/CollectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/Coordinates.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/Coordinates.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/manager/InputHelper.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/manager/Invoker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/manager/Organization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/manager/Product.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/manager/ScriptDepthTracker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/manager/XMLManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/Organization.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/Organization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/ScriptDepthTracker.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/manager/XMLManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/XMLManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/products.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/products.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/pruducts.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/test_commands.txt" beforeDir="false" />
