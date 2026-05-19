@@ -25,7 +25,25 @@ public class ConsoleReader {
     /**
      * Выполняет скрипт: читает файл и отправляет команды на сервер
      */
+    /**
+     * Выполняет скрипт с поддержкой вложенности (макс. 3 уровня)
+     */
+    /**
+     * Выполняет скрипт с поддержкой вложенности (макс. 3 уровня)
+     */
     public void executeScript(String filename, UdpClient client) {
+        executeScriptRecursive(filename, client, 0);
+    }
+
+    /**
+     * Рекурсивное выполнение скрипта
+     */
+    private void executeScriptRecursive(String filename, UdpClient client, int depth) {
+        if (depth >= 3) {
+            System.err.println("!!! Превышена максимальная вложенность скриптов (3)");
+            return;
+        }
+
         try {
             File file = new File(filename);
             if (!file.exists()) {
@@ -37,37 +55,47 @@ public class ConsoleReader {
                 return;
             }
 
-            System.out.println("Выполнение скрипта: " + filename);
+            System.out.println("Скрипт: " + filename + " (уровень " + (depth + 1) + ")");
 
             try (Scanner fileScanner = new Scanner(file)) {
                 while (fileScanner.hasNextLine()) {
                     String line = fileScanner.nextLine().trim();
 
-                    // пропускаем пустые строки и комментарии
                     if (line.isEmpty() || line.startsWith("#") || line.startsWith("//")) {
                         continue;
                     }
 
                     System.out.println(">>> " + line);
 
-                    // парсим и выполняем команду
+                    // Рекурсивный execute_script
+                    if (line.startsWith("execute_script ")) {
+                        String nestedFile = line.substring("execute_script ".length()).trim();
+                        executeScriptRecursive(nestedFile, client, depth + 1);
+                        continue;
+                    }
+
+                    // Пропускаем exit
+                    if ("exit".equals(line)) {
+                        System.out.println("!!! exit пропущен в скрипте");
+                        continue;
+                    }
+
+                    // Обычная команда
                     processCommand(line, client);
                 }
             }
 
             System.out.println("Скрипт завершён: " + filename);
 
-        } catch (FileNotFoundException e) {
-            System.err.println("!!! Ошибка: файл не найден");
         } catch (Exception e) {
-            System.err.println("!!! Ошибка при выполнении скрипта: " + e.getMessage());
+            System.err.println("!!! Ошибка скрипта: " + e.getMessage());
         }
     }
 
     /**
      * Обрабатывает одну команду из скрипта
      */
-    private void processCommand(String input, UdpClient client) {
+    public void processCommand(String input, UdpClient client) {
         String[] parts = input.split(" ", 2);
         String cmdName = parts[0];
         String args = parts.length > 1 ? parts[1] : null;

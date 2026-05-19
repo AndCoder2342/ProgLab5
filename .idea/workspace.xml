@@ -5,7 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26d9b93d-8522-49ac-b0aa-9ad52151143c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/client/console/ConsoleReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/console/ConsoleReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/client/network/UdpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/network/UdpClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products.xml" beforeDir="false" afterPath="$PROJECT_DIR$/products.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/XMLManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/XMLManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/ServerApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/ServerApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shared/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ExecuteScriptCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ExecuteScriptCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/ExecuteScriptCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/ExecuteScriptCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/archetype.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/main/java/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/test/java/AppTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,22 +42,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "i11uha"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;i11uha&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:AndCoder2342/ProgLab5.git",
-    "accountId": "cf1a11e5-d774-4367-8746-5e69b555a8dd"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:AndCoder2342/ProgLab5.git&quot;,
+    &quot;accountId&quot;: &quot;cf1a11e5-d774-4367-8746-5e69b555a8dd&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 2
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="3DGC1DDhd2oe5CokgevEdejF0WZ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -44,6 +71,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/ilya/IdeaProjects/ProgLab5"

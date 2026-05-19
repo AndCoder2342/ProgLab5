@@ -9,6 +9,8 @@ import manager.InputHelper;
 import manager.Product;
 import manager.Organization;
 
+import java.awt.*;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ClientApp {
@@ -16,6 +18,7 @@ public class ClientApp {
         try {
             // подключение к серверу
             UdpClient client = new UdpClient("localhost", 1337);
+//            UdpClient client = new UdpClient("se.ifmo.ru", 1337);
             Scanner scanner = new Scanner(System.in);
             ConsoleReader consoleReader = new ConsoleReader(scanner);
 
@@ -50,8 +53,7 @@ public class ClientApp {
                         System.out.println("Использование: execute_script <filename>");
                         continue;
                     }
-                    // выполняем скрипт локально на клиенте
-                    executeScript(commandArgs, client, consoleReader);
+                    consoleReader.executeScript(commandArgs, client);
                     continue;
                 }
 
@@ -166,26 +168,32 @@ public class ClientApp {
                         break;
 
                     case "update":
-                        if (commandArgs == null) {
-                            System.out.println("Использование: update <id>");
-                            continue;
-                        }
-                        try {
-                            Long updateId = Long.parseLong(commandArgs.trim());
-                            System.out.println("Введите обновлённые данные продукта:");
-                            Product updateProduct = InputHelper.readProductFromConsole(scanner);
-                            if (updateProduct != null) {
-                                updateProduct.setId(updateId); // сохраняем ключ
-                                command = new UpdateCommand(updateId, updateProduct);
-                            } else {
-                                System.out.println("Ошибка ввода продукта");
-                                continue;
+                        // отправка запроса на сервер
+                        if (command != null) {
+                            try {
+                                Request request = new Request(client.getClientId(), command);
+                                Response response = client.sendRequest(request);
+
+                                // если сервер не ответил
+                                if (response == null) {
+                                    System.out.println("\n️  Сервер не ответил (таймаут). Проверьте подключение.\n");
+                                    continue;  // Пропускаем вывод и ждём следующую команду
+                                }
+
+
+                                System.out.println("\nОтвет сервера:");
+                                System.out.println(response.getMessage());
+
+                                if (response.getData() != null) {
+                                    System.out.println("\nДанные:");
+                                    printResponseData(response.getData());
+                                }
+                                System.out.println("─────────────────────────────\n");
+
+                            } catch (Exception e) {
+                                System.err.println("!!! Ошибка при отправке запроса: " + e.getMessage());
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Ошибка: ID должен быть числом");
-                            continue;
                         }
-                        break;
 
                     default:
                         System.out.println("!!! Неизвестная команда. Введите 'help' для списка.");
@@ -197,6 +205,10 @@ public class ClientApp {
                     try {
                         Request request = new Request(client.getClientId(), command);
                         Response response = client.sendRequest(request);
+
+//                        Choice selector = null;
+//                        int readyChannels = selector.select(String.valueOf(1000));
+//                        if (readyChannels == 0) continue;
 
                         // вывод
                         System.out.println("\nОтвет сервера:");
@@ -219,6 +231,7 @@ public class ClientApp {
             System.err.println("!!! Критическая ошибка клиента: " + e.getMessage());
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -234,8 +247,8 @@ public class ClientApp {
             for (Object item : (Iterable<?>) data) {
                 System.out.println("  • " + item);
             }
-        } else if (data instanceof java.util.Map) {
-            ((java.util.Map<?, ?>) data).forEach((k, v) ->
+        } else if (data instanceof Map) {
+            ((Map<?, ?>) data).forEach((k, v) ->
                     System.out.println("  " + k + ": " + v)
             );
         } else if (data instanceof Number) {
@@ -249,7 +262,7 @@ public class ClientApp {
      * Выполнение скрипта на клиенте
      * Читает файл и отправляет команды по одной
      */
-    private static void executeScript(String filename, UdpClient client, ConsoleReader consoleReader) {
-        consoleReader.executeScript(filename, client);
-    }
+//    private static void executeScript(String filename, UdpClient client, ConsoleReader consoleReader) {
+//        consoleReader.executeScript(filename, client);
+//    }
 }

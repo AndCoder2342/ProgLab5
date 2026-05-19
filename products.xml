@@ -2,42 +2,53 @@
 <products>
     <product>
         <id>5</id>
-        <name>mandarin</name>
-        <price>12</price>
-        <creationDate>1777961291895</creationDate>
+        <name>pofig</name>
+        <price>15</price>
+        <creationDate>1778068045591</creationDate>
         <coordinates>
-            <x>2</x>
-            <y>12.0</y>
+            <x>31</x>
+            <y>29.0</y>
         </coordinates>
         <unitOfMeasure>null</unitOfMeasure>
     </product>
     <product>
         <id>4</id>
-        <name>orange</name>
-        <price>123</price>
-        <creationDate>1777919790020</creationDate>
+        <name>melon</name>
+        <price>4</price>
+        <creationDate>1778056552867</creationDate>
         <coordinates>
-            <x>123</x>
-            <y>123.0</y>
+            <x>3</x>
+            <y>2.0</y>
         </coordinates>
         <unitOfMeasure>null</unitOfMeasure>
     </product>
     <product>
         <id>3</id>
-        <name>orange</name>
-        <price>123</price>
-        <creationDate>1775632307015</creationDate>
+        <name>mandarin</name>
+        <price>7</price>
+        <creationDate>1778056462807</creationDate>
         <coordinates>
-            <x>123</x>
-            <y>123.0</y>
+            <x>5</x>
+            <y>6.0</y>
         </coordinates>
         <unitOfMeasure>null</unitOfMeasure>
     </product>
     <product>
         <id>2</id>
         <name>pineapple</name>
+        <price>44</price>
+        <creationDate>1778056050904</creationDate>
+        <coordinates>
+            <x>22</x>
+            <y>33.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+    </product>
+    <product>
+        <id>1</id>
+        <name>apple</name>
         <price>123</price>
-        <creationDate>1775632283409</creationDate>
+        <creationDate>1778055889367</creationDate>
         <coordinates>
             <x>123</x>
             <y>123.0</y>
