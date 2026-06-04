@@ -5,34 +5,72 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26d9b93d-8522-49ac-b0aa-9ad52151143c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/target/classes/client/console/ConsoleReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/console/ConsoleReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/target/classes/client/network/UdpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/network/UdpClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/lib/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/lib/shared-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/products.xml" beforeDir="false" afterPath="$PROJECT_DIR$/products.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/CollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/CollectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/XMLManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/XMLManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/ServerApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/ServerApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/XMLManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/Config.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/ServerApp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager$PendingResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/lib/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/lib/shared-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shared/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ClearCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/CountGreaterThanManufacturerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/CountGreaterThanManufacturerCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ExecuteScriptCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ExecuteScriptCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/ExecuteScriptCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/ExecuteScriptCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/archetype.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/main/java/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/test/java/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ExitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ExitCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/FilterContainsNameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/FilterContainsNameCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/GroupCountingByManufacturerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/GroupCountingByManufacturerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/HelpCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/InfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/InfoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/InsertCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/InsertCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveGreaterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveKeyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveKeyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveLowerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveLowerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ReplaceIfGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ReplaceIfGreaterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/SaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/SaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ShowCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ShowCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/UpdateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/UpdateCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/manager/InputHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/manager/InputHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/manager/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/manager/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/shared/CommandResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/shared/CommandResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/shared/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/shared/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/shared/RequestContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/shared/RequestContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/shared/SerializationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/shared/SerializationUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/ClearCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/ClearCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/CountGreaterThanManufacturerCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/CountGreaterThanManufacturerCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/FilterContainsNameCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/FilterContainsNameCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/GroupCountingByManufacturerCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/GroupCountingByManufacturerCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/InfoCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/InfoCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/InsertCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/InsertCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/RemoveGreaterCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/RemoveGreaterCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/RemoveKeyCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/RemoveKeyCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/ReplaceIfGreaterCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/ReplaceIfGreaterCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/SaveCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/SaveCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/UpdateCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/UpdateCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/enums/UnitOfMeasure.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/enums/UnitOfMeasure.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/manager/Coordinates.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/Coordinates.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/manager/InputHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/InputHelper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/manager/Organization.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/Organization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/manager/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/classes/shared/search/FieldPath.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/shared/search/FieldPath.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/target/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/shared-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,20 +101,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ClientApp.executor": "Run",
-    "Application.ServerApp.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/ilya/IdeaProjects/ProgLab5"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ClientApp.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServerApp.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ilya/IdeaProjects/ProgLab5&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.ClientApp">
     <configuration name="ClientApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="client.ClientApp" />

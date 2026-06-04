@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <products>
     <product>
+        <id>6</id>
+        <name>carrot</name>
+        <price>12</price>
+        <creationDate>1779972581312</creationDate>
+        <coordinates>
+            <x>12</x>
+            <y>12.0</y>
+        </coordinates>
+        <unitOfMeasure>null</unitOfMeasure>
+    </product>
+    <product>
         <id>5</id>
         <name>pofig</name>
         <price>15</price>

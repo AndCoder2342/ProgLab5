@@ -4,36 +4,20 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 /**
- * Универсальный контекст запроса
+ * Контекст запроса: метаданные без бизнес-логики
  */
 public class RequestContext {
     private final UUID requestId;
-    private final UUID clientId;
+    private final String username;
     private final InetSocketAddress clientAddress;
-    private final Object collectionManager;
 
-    public RequestContext(UUID requestId, UUID clientId,
-                          InetSocketAddress clientAddress, Object collectionManager) {
+    public RequestContext(UUID requestId, String username, InetSocketAddress clientAddress) {
         this.requestId = requestId;
-        this.clientId = clientId;
+        this.username = username;
         this.clientAddress = clientAddress;
-        this.collectionManager = collectionManager;
     }
 
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    public UUID getClientId() {
-        return clientId;
-    }
-
-    public InetSocketAddress getClientAddress() {
-        return clientAddress;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T getCollectionManager() {
-        return (T) collectionManager;
-    }
+    public UUID getRequestId() { return requestId; }
+    public String getUsername() { return username; }
+    public InetSocketAddress getClientAddress() { return clientAddress; }
 }

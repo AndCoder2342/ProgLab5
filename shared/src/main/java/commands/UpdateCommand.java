@@ -1,13 +1,11 @@
 package commands;
 
 import manager.Product;
-import shared.RequestContext;
-import shared.CommandResult;
+import commands.Command;
 import java.io.Serializable;
 
 /**
  * Команда обновления элемента
- * Теперь это просто DTO (Data Transfer Object)
  */
 public class UpdateCommand implements Command, Serializable {
     private static final long serialVersionUID = 1L;
@@ -18,11 +16,6 @@ public class UpdateCommand implements Command, Serializable {
     public UpdateCommand(Long id, Product newProduct) {
         this.id = id;
         this.newProduct = newProduct;
-    }
-
-    @Override
-    public CommandResult execute(RequestContext context) {
-        return CommandResult.ok("Команда update принята. ID: " + id, null);
     }
 
     @Override
@@ -38,4 +31,7 @@ public class UpdateCommand implements Command, Serializable {
     // геттеры для сервера
     public Long getId() { return id; }
     public Product getNewProduct() { return newProduct; }
+    public Product getProduct() {
+        return newProduct;
+    }
 }

@@ -14,27 +14,27 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.Set;
-
-import server.commands.CommandExecutor;
-import shared.RequestContext;
-import shared.CommandResult;
-
+import java.util.concurrent.*;
 
 /**
- * UDP Сервер на базе Java NIO (DatagramChannel).
- * Работает в однопоточном режиме, неблокирующе обрабатывает запросы.
+ * Многопоточный UDP сервер на базе Java NIO + ForkJoinPool
  */
 public class UdpServer {
 
     private final DatagramChannel channel;
     private final Selector selector;
     private final CollectionManager collectionManager;
+
+    // Пулы потоков
+    private final ForkJoinPool forkJoinPool;           // Для обработки команд (CPU-bound)
+    private final ExecutorService responseExecutor;    // Для отправки ответов (IO-bound)
+
     private volatile boolean running = true;
 
     public UdpServer(InetSocketAddress address, CollectionManager collectionManager) throws IOException {
         this.collectionManager = collectionManager;
 
-        // открываем канал и переводим в неблокирующий режим
+        // Открываем канал и переводим в неблокирующий режим
         this.channel = DatagramChannel.open();
         this.channel.configureBlocking(false);
         this.channel.socket().bind(address);
@@ -42,18 +42,25 @@ public class UdpServer {
         this.selector = Selector.open();
         this.channel.register(selector, SelectionKey.OP_READ);
 
+        // Инициализация пулов потоков
+        int cores = Runtime.getRuntime().availableProcessors();
+        this.forkJoinPool = new ForkJoinPool(cores);  // ForkJoinPool для CPU-bound задач
+        this.responseExecutor = Executors.newFixedThreadPool(cores);  // Для IO-bound задач
+
         Logger.info("UDP Socket привязан к адресу: {}", address);
+        Logger.info("ForkJoinPool: {} потоков", cores);
+        Logger.info("Response Executor: {} потоков", cores);
     }
 
     /**
-     * главный цикл обработки событий
+     * Главный цикл обработки событий (один поток)
      */
     public void start() {
         Logger.info("Вход в главный цикл обработки запросов...");
 
         while (running) {
             try {
-                // таймаут 1 сек, чтобы можно было проверить running
+                // Таймаут 1 сек для проверки running
                 int readyChannels = selector.select(1000);
                 if (readyChannels == 0) continue;
 
@@ -77,15 +84,20 @@ public class UdpServer {
         Logger.info("Сервер остановлен.");
     }
 
+    /**
+     * Обработка входящего запроса
+     * Отправляем в ForkJoinPool для параллельной обработки
+     */
+    /**
+     * Обработка входящего запроса
+     * Отправляем в ForkJoinPool для параллельной обработки
+     */
     private void handleRead(SelectionKey key) {
-        DatagramChannel ch = null;
-        InetSocketAddress clientAddr = null;
-
         try {
-            ch = (DatagramChannel) key.channel();
+            DatagramChannel ch = (DatagramChannel) key.channel();
             ByteBuffer buffer = ByteBuffer.allocate(65535);
 
-            clientAddr = (InetSocketAddress) ch.receive(buffer);
+            InetSocketAddress clientAddr = (InetSocketAddress) ch.receive(buffer);
             if (clientAddr == null) return;
 
             buffer.flip();
@@ -94,7 +106,31 @@ public class UdpServer {
 
             Logger.debug("Получен пакет от {} (размер: {} байт)", clientAddr, data.length);
 
-            // десериализация запроса
+            // === Создаём ФИНАЛЬНЫЕ копии для lambda ===
+            final DatagramChannel finalChannel = ch;
+            final InetSocketAddress finalClientAddr = clientAddr;
+            final byte[] finalData = data;
+
+            // === Отправляем обработку в ForkJoinPool ===
+            forkJoinPool.submit(() -> {
+                try {
+                    processRequest(finalChannel, finalClientAddr, finalData);
+                } catch (Exception e) {
+                    Logger.error(e, "Ошибка обработки запроса в ForkJoinPool от {}", finalClientAddr);
+                }
+            });
+
+        } catch (IOException e) {
+            Logger.error(e, "Ошибка чтения пакета");
+        }
+    }
+
+    /**
+     * Обработка запроса в отдельном потоке ForkJoinPool
+     */
+    private void processRequest(DatagramChannel ch, InetSocketAddress clientAddr, byte[] data) {
+        try {
+            // Десериализация запроса
             Request request = SerializationUtil.deserialize(data, Request.class);
             if (request == null) {
                 sendError(ch, clientAddr, "Ошибка десериализации запроса");
@@ -103,21 +139,20 @@ public class UdpServer {
 
             Logger.info("Обработка команды '{}' от {}", request.getCommand().getName(), clientAddr);
 
-            // обработка
 
-            // создаём контекст запроса
-            RequestContext context = new RequestContext(
+            server.commands.CommandExecutor executor = new server.commands.CommandExecutor();
+
+// Создаём контекст запроса (без CollectionManager - он передаётся отдельно)
+            shared.RequestContext context = new shared.RequestContext(
                     request.getRequestId(),
-                    request.getClientId(),
-                    clientAddr,
-                    collectionManager
+                    request.getUsername() != null ? request.getUsername() : "anonymous",
+                    clientAddr
             );
 
-            // выполняем команду через CommandExecutor
-            CommandExecutor executor = new CommandExecutor();
-            CommandResult result = executor.execute(request.getCommand(), context);
+// Выполняем команду - получаем CommandResult
+            shared.CommandResult result = executor.execute(request, context, collectionManager);
 
-            // формируем ответ
+// Конвертируем CommandResult в Response для отправки клиенту
             Response response;
             if (result.isSuccess()) {
                 response = Response.ok(request.getRequestId(), result.getMessage(), result.getData());
@@ -125,45 +160,76 @@ public class UdpServer {
                 response = Response.error(request.getRequestId(), result.getMessage());
             }
 
-            // отправляем ответ
-            byte[] responseData = SerializationUtil.serialize(response);
-            ByteBuffer responseBuffer = ByteBuffer.wrap(responseData);
-            ch.send(responseBuffer, clientAddr);
 
-            Logger.debug("Ответ отправлен клиенту {}", clientAddr);
+
+            responseExecutor.submit(() -> {
+                try {
+                    sendResponse(ch, clientAddr, response);
+                } catch (IOException e) {
+                    Logger.error(e, "Ошибка отправки ответа");
+                }
+            });
 
         } catch (ClassNotFoundException e) {
             Logger.error(e, "Класс не найден при десериализации");
-            if (ch != null && clientAddr != null) {
-                sendError(ch, clientAddr, "Ошибка десериализации");
-            }
-        } catch (IOException e) {
-            Logger.error(e, "Ошибка ввода-вывода при чтении пакета");
-            if (ch != null && clientAddr != null) {
-                sendError(ch, clientAddr, "Ошибка ввода-вывода");
-            }
+            sendError(ch, clientAddr, "Ошибка десериализации");
         } catch (Exception e) {
             Logger.error(e, "Непредвиденная ошибка при обработке запроса");
-            if (ch != null && clientAddr != null) {
-                sendError(ch, clientAddr, "Внутренняя ошибка сервера: " + e.getMessage());
-            }
+            sendError(ch, clientAddr, "Внутренняя ошибка сервера: " + e.getMessage());
         }
     }
 
+    /**
+     * Отправка ответа клиенту (в отдельном потоке)
+     */
+    private void sendResponse(DatagramChannel ch, InetSocketAddress clientAddr, Response response) throws IOException {
+        byte[] responseData = SerializationUtil.serialize(response);
+        ByteBuffer responseBuffer = ByteBuffer.wrap(responseData);
+        ch.send(responseBuffer, clientAddr);
+        Logger.debug("Ответ отправлен клиенту {}", clientAddr);
+    }
+
+    /**
+     * Отправка сообщения об ошибке
+     */
     private void sendError(DatagramChannel ch, InetSocketAddress addr, String msg) {
         try {
             Response error = Response.error(java.util.UUID.randomUUID(), msg);
-            ch.send(ByteBuffer.wrap(SerializationUtil.serialize(error)), addr);
+            sendResponse(ch, addr, error);
         } catch (IOException e) {
             Logger.error(e, "Не удалось отправить сообщение об ошибке");
         }
     }
 
+    /**
+     * Корректная остановка сервера
+     */
     public void stop() {
+        Logger.info("Остановка сервера...");
         running = false;
+
+        // Останавливаем пулы потоков
+        forkJoinPool.shutdown();
+        responseExecutor.shutdown();
+
+        try {
+            if (!forkJoinPool.awaitTermination(5, TimeUnit.SECONDS)) {
+                forkJoinPool.shutdownNow();
+            }
+            if (!responseExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
+                responseExecutor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            forkJoinPool.shutdownNow();
+            responseExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+
+        // Закрываем ресурсы
         try {
             channel.close();
             selector.close();
+            Logger.info("Сервер остановлен корректно");
         } catch (IOException e) {
             Logger.error(e, "Ошибка при закрытии ресурсов сервера");
         }

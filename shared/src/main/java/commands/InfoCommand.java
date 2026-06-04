@@ -1,7 +1,6 @@
 package commands;
 
-import shared.RequestContext;
-import shared.CommandResult;
+import commands.Command;
 import java.io.Serializable;
 
 /**
@@ -9,22 +8,6 @@ import java.io.Serializable;
  */
 public class InfoCommand implements Command, Serializable {
     private static final long serialVersionUID = 1L;
-
-    @Override
-    public CommandResult execute(RequestContext context) {
-        try {
-            // получаем объект менеджера
-            Object cmObject = context.getCollectionManager();
-
-            // вызываем метод getInfo() через рефлексию
-            String info = (String) cmObject.getClass().getMethod("getInfo").invoke(cmObject);
-
-            return CommandResult.ok("Информация о коллекции:", info);
-
-        } catch (Exception e) {
-            return CommandResult.error("Ошибка: " + e.getMessage());
-        }
-    }
 
     @Override
     public String getDescription() {

@@ -2,9 +2,6 @@ package shared;
 
 import java.io.Serializable;
 
-/**
- * Результат выполнения команды, который возвращается клиенту
- */
 public class CommandResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -18,8 +15,13 @@ public class CommandResult implements Serializable {
         this.data = data;
     }
 
+
     public static CommandResult ok(String message, Object data) {
         return new CommandResult(true, message, data);
+    }
+
+    public static CommandResult success(String message, Object data) {
+        return ok(message, data);
     }
 
     public static CommandResult error(String message) {

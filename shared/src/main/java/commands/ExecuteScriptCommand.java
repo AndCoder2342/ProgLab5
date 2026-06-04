@@ -1,7 +1,6 @@
 package commands;
 
-import shared.RequestContext;
-import shared.CommandResult;
+import commands.Command;
 import java.io.Serializable;
 
 public class ExecuteScriptCommand implements Command, Serializable {
@@ -10,11 +9,6 @@ public class ExecuteScriptCommand implements Command, Serializable {
 
     public ExecuteScriptCommand(String filename) {
         this.filename = filename;
-    }
-
-    @Override
-    public CommandResult execute(RequestContext context) {
-        return CommandResult.error("execute_script выполняется только на клиенте");
     }
 
     @Override

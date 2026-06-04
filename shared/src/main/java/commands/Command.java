@@ -1,28 +1,24 @@
 package commands;
 
-import shared.RequestContext;
-import shared.CommandResult;
 import java.io.Serializable;
 
 /**
- * Интерфейс команды для клиент-серверного взаимодействия
+ * Базовый интерфейс для всех команд.
+ * Команды - это просто DTO (данные), логика выполнения в CommandExecutor.
  */
 public interface Command extends Serializable {
 
     /**
-     * Выполняет команду на сервере
-     * @param context контекст выполнения (доступ к коллекции, логгеру)
-     * @return результат выполнения
-     */
-    CommandResult execute(RequestContext context);
-
-    /**
-     * Возвращает описание команды
-     */
-    String getDescription();
-
-    /**
-     * Возвращает имя команды
+     * @return имя команды для парсинга
      */
     String getName();
+
+    /**
+     * @return описание команды для help
+     */
+    default String getDescription() {
+        return "Нет описания";
+    }
+
+    // ✅ УБРАЛ метод execute() - логика теперь в CommandExecutor!
 }

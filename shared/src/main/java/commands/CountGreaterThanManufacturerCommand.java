@@ -1,11 +1,8 @@
 package commands;
 
 import manager.Organization;
-import shared.RequestContext;
-import shared.CommandResult;
+import commands.Command;
 import java.io.Serializable;
-import java.util.Hashtable;
-import manager.Product;
 
 /**
  * Команда подсчета элементов с производителем больше заданного
@@ -17,40 +14,6 @@ public class CountGreaterThanManufacturerCommand implements Command, Serializabl
 
     public CountGreaterThanManufacturerCommand(Organization organization) {
         this.organization = organization;
-    }
-
-    @Override
-    public CommandResult execute(RequestContext context) {
-        try {
-            // получаем collectionManager через рефлексию
-            Object cmObject = context.getCollectionManager();
-
-            // получаем коллекцию через рефлексию
-            @SuppressWarnings("unchecked")
-            Hashtable<Long, Product> collection = (Hashtable<Long, Product>)
-                    cmObject.getClass().getMethod("getCollection").invoke(cmObject);
-
-            // Stream API для подсчета
-            long count = collection.values().stream()
-                    .filter(p -> p != null)
-                    .filter(p -> p.getManufacturer() != null)
-                    .filter(p -> {
-                        // сравниваем имена производителей лексикографически
-                        String prodName = p.getManufacturer().getName();
-                        String orgName = organization.getName();
-                        return prodName != null && orgName != null &&
-                                prodName.compareTo(orgName) > 0;
-                    })
-                    .count();
-
-            return CommandResult.ok(
-                    "Количество элементов: " + count,
-                    count
-            );
-
-        } catch (Exception e) {
-            return CommandResult.error("Ошибка: " + e.getMessage());
-        }
     }
 
     @Override

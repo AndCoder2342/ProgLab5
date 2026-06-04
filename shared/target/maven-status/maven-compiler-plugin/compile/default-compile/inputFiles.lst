@@ -8,6 +8,7 @@
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/commands/HelpCommand.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/commands/InfoCommand.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/commands/InsertCommand.java
+/Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/commands/RegisterCommand.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/commands/RemoveGreaterCommand.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/commands/RemoveKeyCommand.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/commands/RemoveLowerCommand.java
@@ -20,6 +21,8 @@
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/manager/InputHelper.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/manager/Organization.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/manager/Product.java
+/Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/manager/UnitOfMeasure.java
+/Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/manager/User.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/shared/CommandResult.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/shared/Request.java
 /Users/ilya/IdeaProjects/ProgLab5/shared/src/main/java/shared/RequestContext.java

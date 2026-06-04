@@ -1,7 +1,6 @@
 package commands;
 
-import shared.RequestContext;
-import shared.CommandResult;
+import commands.Command;
 import java.io.Serializable;
 
 /**
@@ -10,12 +9,6 @@ import java.io.Serializable;
  */
 public class ExitCommand implements Command, Serializable {
     private static final long serialVersionUID = 1L;
-
-    @Override
-    public CommandResult execute(RequestContext context) {
-        // команда обрабатывается на клиенте
-        return CommandResult.ok("Завершение программы...", null);
-    }
 
     @Override
     public String getDescription() {

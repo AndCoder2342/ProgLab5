@@ -27,7 +27,7 @@ public class SerializationUtil {
     /**
      * Преобразует массив байт обратно в объект
      */
-    @SuppressWarnings("unchecked")
+
     public static <T> T deserialize(byte[] data, Class<T> clazz) throws IOException, ClassNotFoundException {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(data);
              ObjectInputStream ois = new ObjectInputStream(bis)) {

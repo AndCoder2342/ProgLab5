@@ -18,6 +18,7 @@ public class Product implements Comparable<Product>, Serializable {
     private int price; //Значение поля должно быть больше 0
     private UnitOfMeasure unitOfMeasure; //Поле может быть null
     private Organization manufacturer; //Поле может быть null
+    private Integer ownerId;
 
     public Product() {
         this.creationDate = new Date();
@@ -115,7 +116,10 @@ public class Product implements Comparable<Product>, Serializable {
                 ", creationDate=" + creationDate +
                 ", price=" + price +
                 ", unitOfMeasure=" + unitOfMeasure +
-                ", manufacturer=" + (manufacturer != null ? manufacturer.getName() : "null") +
+                ", manufacturer=" + (manufacturer != null ? manufacturer.getName() : "null") + ", ownerId=" + ownerId +
                 '}';
     }
+
+    public Integer getOwnerId() { return ownerId; }
+    public void setOwnerId(Integer ownerId) { this.ownerId = ownerId; }
 }

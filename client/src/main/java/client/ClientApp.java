@@ -9,21 +9,94 @@ import manager.InputHelper;
 import manager.Product;
 import manager.Organization;
 
-import java.awt.*;
 import java.util.Map;
 import java.util.Scanner;
 
 public class ClientApp {
+    private static int userId = -1;
+
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
         try {
-            // подключение к серверу
+
             UdpClient client = new UdpClient("localhost", 1337);
-//            UdpClient client = new UdpClient("se.ifmo.ru", 1337);
-            Scanner scanner = new Scanner(System.in);
             ConsoleReader consoleReader = new ConsoleReader(scanner);
 
-            System.out.println("Клиент запущен");
-            System.out.println("Введите команду (help для списка):");
+
+            System.out.println("=== Авторизация ===");
+            String username = null;
+            String password = null;
+
+            while (true) {
+                System.out.print("Введите логин (или 'reg' для регистрации): ");
+                String input = scanner.nextLine().trim();
+
+                if ("reg".equalsIgnoreCase(input)) {
+
+                    System.out.println("=== Регистрация ===");
+                    System.out.print("Придумайте логин (мин. 3 символа): ");
+                    String regUsername = scanner.nextLine().trim();
+
+                    System.out.print("Придумайте пароль (мин. 4 символа): ");
+                    String regPassword = scanner.nextLine().trim();
+
+                    // Создаём команду регистрации
+                    RegisterCommand regCmd = new RegisterCommand(regUsername, regPassword);
+
+                    // Для регистрации: логин/пароль в теле команды, в заголовке - null
+                    Request regRequest = new Request(null, null, regCmd);
+
+                    try {
+                        System.out.println("Отправка запроса на регистрацию...");
+                        Response regResponse = client.sendRequest(regRequest);
+
+                        if (regResponse != null) {
+                            System.out.println("\nСервер: " + regResponse.getMessage());
+
+                            // После успешной регистрации:
+                            if (regResponse.isSuccess()) {
+                                System.out.println("\n Регистрация успешна! Автоматический вход...");
+                                username = regUsername;
+                                password = regPassword;
+                                // Получаем userId из ответа
+                                if (regResponse.getData() instanceof Integer) {
+                                    userId = (Integer) regResponse.getData();
+                                }
+                                System.out.println("✓ Вы вошли как: " + username + " (ID: " + userId + ")");
+                                System.out.println("===================\n");
+                                break;
+                            }
+                        } else {
+                            System.out.println("Сервер не ответил (таймаут)");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Ошибка связи: " + e.getMessage());
+                    }
+                    // continue не нужен, цикл повторится сам
+
+                } else if (!input.isEmpty()) {
+
+                    username = input;
+                    System.out.print("Введите пароль: ");
+                    password = scanner.nextLine().trim();
+
+                    // Проверяем вход простой командой (help)
+                    Request loginCheck = new Request(username, password, new HelpCommand());
+                    Response checkResponse = client.sendRequest(loginCheck);
+
+                    if (checkResponse != null && checkResponse.isSuccess()) {
+                        System.out.println("✓ Авторизован как: " + username);
+                        System.out.println("===================\n");
+                        break;
+                    } else {
+                        System.out.println("Неверный логин или пароль. Попробуйте снова.\n");
+                    }
+                }
+            }
+
+            System.out.println("Клиент запущен. Введите команду (help для списка):");
+
 
             while (true) {
                 System.out.print("> ");
@@ -32,16 +105,13 @@ public class ClientApp {
                 String input = scanner.nextLine().trim();
                 if (input.isEmpty()) continue;
 
-                // парсим
                 String[] parts = input.split(" ", 2);
                 String cmdName = parts[0];
                 String commandArgs = parts.length > 1 ? parts[1] : null;
 
                 Command command = null;
 
-                // обработка
 
-                // обрабатываются на клиенте:
                 if ("exit".equals(cmdName)) {
                     System.out.println("Выход...");
                     client.close();
@@ -57,7 +127,7 @@ public class ClientApp {
                     continue;
                 }
 
-                // простые команды без аргументов
+
                 switch (cmdName) {
                     case "help":
                         command = new HelpCommand();
@@ -78,7 +148,6 @@ public class ClientApp {
                         command = new GroupCountingByManufacturerCommand();
                         break;
 
-                    // команды с одним аргументом строка или число
                     case "remove_key":
                         if (commandArgs == null) {
                             System.out.println("Использование: remove_key <id>");
@@ -101,7 +170,6 @@ public class ClientApp {
                         command = new FilterContainsNameCommand(commandArgs.trim());
                         break;
 
-                    // команды, требующие ввода сложного объекта (Product)
                     case "insert":
                         System.out.println("Введите данные нового продукта:");
                         Product newProduct = InputHelper.readProductFromConsole(scanner);
@@ -168,53 +236,41 @@ public class ClientApp {
                         break;
 
                     case "update":
-                        // отправка запроса на сервер
-                        if (command != null) {
-                            try {
-                                Request request = new Request(client.getClientId(), command);
-                                Response response = client.sendRequest(request);
-
-                                // если сервер не ответил
-                                if (response == null) {
-                                    System.out.println("\n️  Сервер не ответил (таймаут). Проверьте подключение.\n");
-                                    continue;  // Пропускаем вывод и ждём следующую команду
-                                }
-
-
-                                System.out.println("\nОтвет сервера:");
-                                System.out.println(response.getMessage());
-
-                                if (response.getData() != null) {
-                                    System.out.println("\nДанные:");
-                                    printResponseData(response.getData());
-                                }
-                                System.out.println("─────────────────────────────\n");
-
-                            } catch (Exception e) {
-                                System.err.println("!!! Ошибка при отправке запроса: " + e.getMessage());
-                            }
+                        if (commandArgs == null) {
+                            System.out.println("Использование: update <id>");
+                            continue;
                         }
-
-                    default:
-                        System.out.println("!!! Неизвестная команда. Введите 'help' для списка.");
-                        continue;
+                        try {
+                            Long updateId = Long.parseLong(commandArgs.trim());
+                            System.out.println("Введите новые данные продукта:");
+                            Product updateProduct = InputHelper.readProductFromConsole(scanner);
+                            if (updateProduct != null) {
+                                command = new UpdateCommand(updateId, updateProduct);
+                            } else {
+                                System.out.println("Ошибка ввода продукта");
+                                continue;
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Ошибка: ID должен быть числом");
+                            continue;
+                        }
+                        break;
                 }
 
-                // отправка запроса на сервер
                 if (command != null) {
                     try {
-                        Request request = new Request(client.getClientId(), command);
+                        // ПРАВИЛЬНО: передаём username/password для авторизации
+                        Request request = new Request(username, password, command);
                         Response response = client.sendRequest(request);
 
-//                        Choice selector = null;
-//                        int readyChannels = selector.select(String.valueOf(1000));
-//                        if (readyChannels == 0) continue;
+                        if (response == null) {
+                            System.out.println("\nСервер не ответил (таймаут). Проверьте подключение.\n");
+                            continue;
+                        }
 
-                        // вывод
                         System.out.println("\nОтвет сервера:");
                         System.out.println(response.getMessage());
 
-                        // если в ответе есть данные
                         if (response.getData() != null) {
                             System.out.println("\nДанные:");
                             printResponseData(response.getData());
@@ -222,22 +278,20 @@ public class ClientApp {
                         System.out.println("─────────────────────────────\n");
 
                     } catch (Exception e) {
-                        System.err.println("!!! Ошибка при отправке запроса: " + e.getMessage());
+                        System.err.println("Ошибка при отправке запроса: " + e.getMessage());
                     }
                 }
             }
 
         } catch (Exception e) {
-            System.err.println("!!! Критическая ошибка клиента: " + e.getMessage());
+            System.err.println("Критическая ошибка клиента: " + e.getMessage());
             e.printStackTrace();
         }
-
     }
 
     /**
-     * Вывод данных из ответа сервера (списки, карты, простые значения)
+     * Вывод данных из ответа сервера
      */
-    @SuppressWarnings("unchecked")
     private static void printResponseData(Object data) {
         if (data == null) return;
 
@@ -257,12 +311,4 @@ public class ClientApp {
             System.out.println("  " + data);
         }
     }
-
-    /**
-     * Выполнение скрипта на клиенте
-     * Читает файл и отправляет команды по одной
-     */
-//    private static void executeScript(String filename, UdpClient client, ConsoleReader consoleReader) {
-//        consoleReader.executeScript(filename, client);
-//    }
 }
