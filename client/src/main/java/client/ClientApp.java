@@ -63,7 +63,7 @@ public class ClientApp {
                                 if (regResponse.getData() instanceof Integer) {
                                     userId = (Integer) regResponse.getData();
                                 }
-                                System.out.println("✓ Вы вошли как: " + username + " (ID: " + userId + ")");
+                                System.out.println("-> Вы вошли как: " + username + " (ID: " + userId + ")");
                                 System.out.println("===================\n");
                                 break;
                             }
@@ -86,7 +86,15 @@ public class ClientApp {
                     Response checkResponse = client.sendRequest(loginCheck);
 
                     if (checkResponse != null && checkResponse.isSuccess()) {
-                        System.out.println("✓ Авторизован как: " + username);
+                        System.out.println("-> Авторизован как: " + username);
+
+                        // Получаем userId
+                        Request whoamiRequest = new Request(username, password, new WhoAmICommand());
+                        Response whoamiResponse = client.sendRequest(whoamiRequest);
+                        if (whoamiResponse != null && whoamiResponse.isSuccess() && whoamiResponse.getData() instanceof Integer) {
+                            userId = (Integer) whoamiResponse.getData();
+                        }
+
                         System.out.println("===================\n");
                         break;
                     } else {
@@ -242,7 +250,49 @@ public class ClientApp {
                         }
                         try {
                             Long updateId = Long.parseLong(commandArgs.trim());
-                            System.out.println("Введите новые данные продукта:");
+
+                            System.out.println(" Проверка прав на редактирование продукта ID=" + updateId + "...");
+
+                            Request showRequest = new Request(username, password, new ShowCommand());
+                            Response showResponse = client.sendRequest(showRequest);
+
+                            if (showResponse == null || !showResponse.isSuccess()) {
+                                System.out.println(" Ошибка получения данных");
+                                continue;
+                            }
+
+                            // Ищем продукт по ID
+                            boolean found = false;
+                            boolean hasRights = false;
+
+                            if (showResponse.getData() instanceof Iterable) {
+                                for (Object item : (Iterable<?>) showResponse.getData()) {
+                                    if (item instanceof manager.Product) {
+                                        manager.Product p = (manager.Product) item;
+                                        if (p.getId().equals(updateId)) {
+                                            found = true;
+                                            // Проверяем ownerId
+                                            if (p.getOwnerId() == null || p.getOwnerId() == userId) {
+                                                hasRights = true;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (!found) {
+                                System.out.println(" Продукт с ID=" + updateId + " не найден");
+                                continue;
+                            }
+
+                            if (!hasRights) {
+                                System.out.println(" У вас нет прав на редактирование продукта ID=" + updateId);
+                                continue;
+                            }
+
+                            System.out.println(" Права подтверждены. Введите новые данные продукта:");
+
                             Product updateProduct = InputHelper.readProductFromConsole(scanner);
                             if (updateProduct != null) {
                                 command = new UpdateCommand(updateId, updateProduct);
@@ -259,7 +309,7 @@ public class ClientApp {
 
                 if (command != null) {
                     try {
-                        // ПРАВИЛЬНО: передаём username/password для авторизации
+
                         Request request = new Request(username, password, command);
                         Response response = client.sendRequest(request);
 

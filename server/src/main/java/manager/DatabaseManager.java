@@ -39,27 +39,42 @@ public class DatabaseManager {
      * Загружает настройки из database.properties
      */
     private void loadConfig() {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE)) {
-            if (input == null) {
-                throw new RuntimeException("Файл конфигурации не найден: " + CONFIG_FILE);
-            }
-
-            Properties props = new Properties();
-            props.load(input);
-
-            String host = props.getProperty("db.host", "localhost");
-            String port = props.getProperty("db.port", "5432");
-            String dbname = props.getProperty("db.name", "prog_lab5");
-
-            this.url = String.format("jdbc:postgresql://%s:%s/%s", host, port, dbname);
-            this.username = props.getProperty("db.username", "postgres");
-            this.password = props.getProperty("db.password", "");
-
-            Logger.info("Загружены настройки БД: {}", url);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Ошибка загрузки конфигурации БД", e);
+        // Читаем из переменных окружения (для Docker) или из конфига
+        String host = System.getenv("DB_HOST");
+        if (host == null || host.isEmpty()) {
+            host = "localhost";  // По умолчанию для локальной разработки
         }
+
+        String portStr = System.getenv("DB_PORT");
+        int port = 5432;  // Порт по умолчанию
+        if (portStr != null && !portStr.isEmpty()) {
+            try {
+                port = Integer.parseInt(portStr);
+            } catch (NumberFormatException e) {
+                Logger.warn("Неверный порт БД: {}, используем 5432", portStr);
+            }
+        }
+
+        String database = System.getenv("DB_NAME");
+        if (database == null || database.isEmpty()) {
+            database = "prog_lab5";
+        }
+
+        String user = System.getenv("DB_USER");
+        if (user == null || user.isEmpty()) {
+            user = "postgres";
+        }
+
+        String password = System.getenv("DB_PASSWORD");
+        if (password == null || password.isEmpty()) {
+            password = "postgres";
+        }
+
+        this.url = "jdbc:postgresql://" + host + ":" + port + "/" + database;
+        this.username = user;
+        this.password = password;
+
+        Logger.info("Загружены настройки БД: jdbc:postgresql://{}:{}/{}", host, port, database);
     }
 
     /**

@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-lab5
+    environment:
+      POSTGRES_DB: prog_lab5
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"  # ← Поменяли на 5433 чтобы не конфликтовал
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - lab5-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server-lab5
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=prog_lab5
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+      - "1337:1337/udp"
+    networks:
+      - lab5-network
+    restart: unless-stopped
+
+networks:
+  lab5-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

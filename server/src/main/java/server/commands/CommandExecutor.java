@@ -48,6 +48,8 @@ public class CommandExecutor {
         try {
             if (command instanceof HelpCommand) {
                 return executeHelp((HelpCommand) command);
+            } else if (command instanceof WhoAmICommand) {
+                return CommandResult.ok("Вы: " + username + " (ID: " + userId + ")", userId);
             } else if (command instanceof InfoCommand) {
                 return executeInfo((InfoCommand) command, collectionManager);
             } else if (command instanceof ShowCommand) {
