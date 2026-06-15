@@ -8,11 +8,11 @@ public class Request implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final UUID requestId;
-    private final String username;        // ← Новое поле
-    private final String password;        // ← Новое поле
+    private final String username;
+    private final String password;
     private final Command command;
 
-    // Конструктор с авторизацией
+
     public Request(String username, String password, Command command) {
         this.requestId = UUID.randomUUID();
         this.username = username;
@@ -20,7 +20,7 @@ public class Request implements Serializable {
         this.command = command;
     }
 
-    // Конструктор без авторизации (для обратной совместимости)
+
     public Request(UUID clientId, Command command) {
         this(null, null, command);
     }

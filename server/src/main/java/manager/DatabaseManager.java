@@ -39,14 +39,13 @@ public class DatabaseManager {
      * Загружает настройки из database.properties
      */
     private void loadConfig() {
-        // Читаем из переменных окружения (для Docker) или из конфига
         String host = System.getenv("DB_HOST");
         if (host == null || host.isEmpty()) {
-            host = "localhost";  // По умолчанию для локальной разработки
+            host = "localhost";
         }
 
         String portStr = System.getenv("DB_PORT");
-        int port = 5432;  // Порт по умолчанию
+        int port = 5432;
         if (portStr != null && !portStr.isEmpty()) {
             try {
                 port = Integer.parseInt(portStr);
@@ -92,10 +91,10 @@ public class DatabaseManager {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // Читаем SQL скрипт из ресурсов
+
             String schemaSql = readSchemaFile();
 
-            // Выполняем все команды (разделенные ;)
+
             String[] statements = schemaSql.split(";");
             for (String sql : statements) {
                 String trimmed = sql.trim();

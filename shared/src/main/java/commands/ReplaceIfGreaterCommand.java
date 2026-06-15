@@ -1,7 +1,6 @@
 package commands;
 
 import manager.Product;
-import commands.Command;
 import java.io.Serializable;
 
 /**

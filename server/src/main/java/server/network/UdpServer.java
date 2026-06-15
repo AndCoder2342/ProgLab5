@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.concurrent.*;
 
 /**
- * Многопоточный UDP сервер на базе Java NIO + ForkJoinPool
+ * UDP сервер использующий многопоточность и ForkJoinPool
  */
 public class UdpServer {
 
@@ -25,16 +25,16 @@ public class UdpServer {
     private final Selector selector;
     private final CollectionManager collectionManager;
 
-    // Пулы потоков
-    private final ForkJoinPool forkJoinPool;           // Для обработки команд (CPU-bound)
-    private final ExecutorService responseExecutor;    // Для отправки ответов (IO-bound)
+    // пулы
+    private final ForkJoinPool forkJoinPool;           // для команд
+    private final ExecutorService responseExecutor;    // для ответов
 
     private volatile boolean running = true;
 
     public UdpServer(InetSocketAddress address, CollectionManager collectionManager) throws IOException {
         this.collectionManager = collectionManager;
 
-        // Открываем канал и переводим в неблокирующий режим
+        // канал в неблокирующем режиме
         this.channel = DatagramChannel.open();
         this.channel.configureBlocking(false);
         this.channel.socket().bind(address);
@@ -42,25 +42,23 @@ public class UdpServer {
         this.selector = Selector.open();
         this.channel.register(selector, SelectionKey.OP_READ);
 
-        // Инициализация пулов потоков
+        // инициализация пулов
         int cores = Runtime.getRuntime().availableProcessors();
-        this.forkJoinPool = new ForkJoinPool(cores);  // ForkJoinPool для CPU-bound задач
-        this.responseExecutor = Executors.newFixedThreadPool(cores);  // Для IO-bound задач
+        this.forkJoinPool = new ForkJoinPool(cores);
+        this.responseExecutor = Executors.newFixedThreadPool(cores);
 
         Logger.info("UDP Socket привязан к адресу: {}", address);
         Logger.info("ForkJoinPool: {} потоков", cores);
         Logger.info("Response Executor: {} потоков", cores);
     }
 
-    /**
-     * Главный цикл обработки событий (один поток)
-     */
+
     public void start() {
         Logger.info("Вход в главный цикл обработки запросов...");
 
         while (running) {
             try {
-                // Таймаут 1 сек для проверки running
+
                 int readyChannels = selector.select(1000);
                 if (readyChannels == 0) continue;
 
@@ -85,12 +83,8 @@ public class UdpServer {
     }
 
     /**
-     * Обработка входящего запроса
-     * Отправляем в ForkJoinPool для параллельной обработки
-     */
-    /**
-     * Обработка входящего запроса
-     * Отправляем в ForkJoinPool для параллельной обработки
+     * обработка входящего запроса
+     * отправляем в ForkJoinPool для параллельной обработки
      */
     private void handleRead(SelectionKey key) {
         try {
@@ -106,12 +100,12 @@ public class UdpServer {
 
             Logger.debug("Получен пакет от {} (размер: {} байт)", clientAddr, data.length);
 
-            // === Создаём ФИНАЛЬНЫЕ копии для lambda ===
+
             final DatagramChannel finalChannel = ch;
             final InetSocketAddress finalClientAddr = clientAddr;
             final byte[] finalData = data;
 
-            // === Отправляем обработку в ForkJoinPool ===
+
             forkJoinPool.submit(() -> {
                 try {
                     processRequest(finalChannel, finalClientAddr, finalData);
@@ -130,7 +124,7 @@ public class UdpServer {
      */
     private void processRequest(DatagramChannel ch, InetSocketAddress clientAddr, byte[] data) {
         try {
-            // Десериализация запроса
+
             Request request = SerializationUtil.deserialize(data, Request.class);
             if (request == null) {
                 sendError(ch, clientAddr, "Ошибка десериализации запроса");
@@ -142,17 +136,17 @@ public class UdpServer {
 
             server.commands.CommandExecutor executor = new server.commands.CommandExecutor();
 
-// Создаём контекст запроса (без CollectionManager - он передаётся отдельно)
+
             shared.RequestContext context = new shared.RequestContext(
                     request.getRequestId(),
                     request.getUsername() != null ? request.getUsername() : "anonymous",
                     clientAddr
             );
 
-// Выполняем команду - получаем CommandResult
+
             shared.CommandResult result = executor.execute(request, context, collectionManager);
 
-// Конвертируем CommandResult в Response для отправки клиенту
+
             Response response;
             if (result.isSuccess()) {
                 response = Response.ok(request.getRequestId(), result.getMessage(), result.getData());
@@ -180,7 +174,7 @@ public class UdpServer {
     }
 
     /**
-     * Отправка ответа клиенту (в отдельном потоке)
+     * Отправка ответа клиенту
      */
     private void sendResponse(DatagramChannel ch, InetSocketAddress clientAddr, Response response) throws IOException {
         byte[] responseData = SerializationUtil.serialize(response);
@@ -208,7 +202,7 @@ public class UdpServer {
         Logger.info("Остановка сервера...");
         running = false;
 
-        // Останавливаем пулы потоков
+        // останока пулов
         forkJoinPool.shutdown();
         responseExecutor.shutdown();
 
@@ -225,7 +219,7 @@ public class UdpServer {
             Thread.currentThread().interrupt();
         }
 
-        // Закрываем ресурсы
+
         try {
             channel.close();
             selector.close();

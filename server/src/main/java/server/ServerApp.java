@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ServerApp {
     public static void main(String[] args) {
-        // === Инициализация БД ===
         DatabaseManager db = DatabaseManager.getInstance();
 
         if (!db.testConnection()) {
@@ -22,14 +21,13 @@ public class ServerApp {
         db.initializeSchema();
         Logger.info("Схема инициализирована!");
 
-        // === Инициализация менеджеров ===
+
         UserManager userManager = new UserManager(db);
         CollectionManager collectionManager = new CollectionManager(db, userManager);
 
-        // Загружаем коллекцию из БД
+
         collectionManager.loadFromDatabase();
 
-        // === Настройки сервера ===
         int port = 1337;
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-p") || args[i].equals("--port")) {
@@ -46,10 +44,10 @@ public class ServerApp {
         Logger.info("Запуск Сервера");
         Logger.info("Порт: {}, Логирование: info", port);
 
-        // === AtomicReference для безопасного использования в lambda ===
+
         AtomicReference<UdpServer> udpServerRef = new AtomicReference<>();
 
-        // === Shutdown hook для корректной остановки ===
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Logger.info("Получен сигнал завершения...");
             UdpServer server = udpServerRef.get();
@@ -59,18 +57,17 @@ public class ServerApp {
         }));
 
         try {
-            // Создаём сервер
+            // создаём сервер
             UdpServer udpServer = new UdpServer(
                     new InetSocketAddress(port),
                     collectionManager
             );
 
-            // Сохраняем ссылку для shutdown hook (AtomicReference позволяет это)
             udpServerRef.set(udpServer);
 
             Logger.info("Сервер готов к приему подключений...");
 
-            // Запускаем (блокирующий вызов)
+
             udpServer.start();
 
         } catch (Exception e) {

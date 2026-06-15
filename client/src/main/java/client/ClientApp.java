@@ -41,10 +41,10 @@ public class ClientApp {
                     System.out.print("Придумайте пароль (мин. 4 символа): ");
                     String regPassword = scanner.nextLine().trim();
 
-                    // Создаём команду регистрации
+
                     RegisterCommand regCmd = new RegisterCommand(regUsername, regPassword);
 
-                    // Для регистрации: логин/пароль в теле команды, в заголовке - null
+
                     Request regRequest = new Request(null, null, regCmd);
 
                     try {
@@ -54,7 +54,7 @@ public class ClientApp {
                         if (regResponse != null) {
                             System.out.println("\nСервер: " + regResponse.getMessage());
 
-                            // После успешной регистрации:
+
                             if (regResponse.isSuccess()) {
                                 System.out.println("\n Регистрация успешна! Автоматический вход...");
                                 username = regUsername;
@@ -73,7 +73,7 @@ public class ClientApp {
                     } catch (Exception e) {
                         System.out.println("Ошибка связи: " + e.getMessage());
                     }
-                    // continue не нужен, цикл повторится сам
+                    // continue не нужен тк цикл повторится сам
 
                 } else if (!input.isEmpty()) {
 
@@ -81,14 +81,14 @@ public class ClientApp {
                     System.out.print("Введите пароль: ");
                     password = scanner.nextLine().trim();
 
-                    // Проверяем вход простой командой (help)
+
                     Request loginCheck = new Request(username, password, new HelpCommand());
                     Response checkResponse = client.sendRequest(loginCheck);
 
                     if (checkResponse != null && checkResponse.isSuccess()) {
                         System.out.println("-> Авторизован как: " + username);
 
-                        // Получаем userId
+
                         Request whoamiRequest = new Request(username, password, new WhoAmICommand());
                         Response whoamiResponse = client.sendRequest(whoamiRequest);
                         if (whoamiResponse != null && whoamiResponse.isSuccess() && whoamiResponse.getData() instanceof Integer) {
@@ -261,7 +261,7 @@ public class ClientApp {
                                 continue;
                             }
 
-                            // Ищем продукт по ID
+
                             boolean found = false;
                             boolean hasRights = false;
 

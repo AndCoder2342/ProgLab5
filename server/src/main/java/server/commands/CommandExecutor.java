@@ -19,12 +19,12 @@ public class CommandExecutor {
     public CommandResult execute(Request request, RequestContext context, CollectionManager collectionManager) {
         Command command = request.getCommand();
 
-        // === RegisterCommand НЕ требует авторизации! Обрабатываем ПЕРВЫМ ===
+
         if (command instanceof RegisterCommand) {
             return executeRegister((RegisterCommand) command, collectionManager);
         }
 
-        // === Для ВСЕХ ОСТАЛЬНЫХ команд требуем авторизацию ===
+
         String username = request.getUsername();
         String password = request.getPassword();
 
@@ -32,10 +32,10 @@ public class CommandExecutor {
             return CommandResult.error("Требуется авторизация. Войдите в систему.");
         }
 
-        //  Получаем UserManager из CollectionManager
+
         UserManager userManager = collectionManager.getUserManager();
 
-        //  ОДИН раз вызываем login() и получаем userId
+
         Optional<User> userOpt = userManager.login(username, password);
         if (userOpt.isEmpty()) {
             return CommandResult.error("Неверный логин или пароль");
@@ -43,7 +43,7 @@ public class CommandExecutor {
 
         int userId = userOpt.get().getId();
         Logger.info(" Авторизация: username={}, userId={}", username, userId);
-        // ================================================================
+
 
         try {
             if (command instanceof HelpCommand) {
@@ -84,7 +84,6 @@ public class CommandExecutor {
         }
     }
 
-    // ==================== Реализация команд (только чтение) ====================
 
     private CommandResult executeHelp(HelpCommand cmd) {
         String helpText = """
@@ -136,10 +135,9 @@ public class CommandExecutor {
         return CommandResult.ok("Коллекция сохранена", null);
     }
 
-    // ==================== Реализация команд (модификация с проверкой прав) ====================
 
     private CommandResult executeInsert(InsertCommand cmd, CollectionManager cm, int userId) {
-        Logger.info("🔍 INSERT: userId={}, product={}", userId, cmd.getProduct().getName());
+        Logger.info("INSERT: userId={}, product={}", userId, cmd.getProduct().getName());
 
         boolean success = cm.insert(cmd.getProduct(), userId);
         if (success) {
@@ -150,7 +148,7 @@ public class CommandExecutor {
     }
 
     private CommandResult executeUpdate(UpdateCommand cmd, CollectionManager cm, int userId) {
-        Logger.info("🔍 UPDATE: userId={}, productId={}", userId, cmd.getId());
+        Logger.info("UPDATE: userId={}, productId={}", userId, cmd.getId());
 
         boolean success = cm.update(cmd.getId(), cmd.getProduct(), userId);
         if (success) {
@@ -161,7 +159,7 @@ public class CommandExecutor {
     }
 
     private CommandResult executeRemoveKey(RemoveKeyCommand cmd, CollectionManager cm, int userId) {
-        Logger.info("🔍 REMOVE_KEY: userId={}, productId={}", userId, cmd.getId());
+        Logger.info("REMOVE_KEY: userId={}, productId={}", userId, cmd.getId());
 
         boolean success = cm.removeKey(cmd.getId(), userId);
         if (success) {

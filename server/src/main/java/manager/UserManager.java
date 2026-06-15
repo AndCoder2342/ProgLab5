@@ -19,7 +19,7 @@ public class UserManager {
     }
 
     /**
-     * Хэширует пароль алгоритмом MD2
+     * Хэширует пароль используя MD2
      */
 
     public String hashPassword(String password) {
@@ -27,7 +27,7 @@ public class UserManager {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD2");
             byte[] hashBytes = md.digest(password.getBytes(java.nio.charset.StandardCharsets.UTF_8));
 
-            // Конвертируем байты в hex строку
+            // байты в hex
             StringBuilder sb = new StringBuilder();
             for (byte b : hashBytes) {
                 sb.append(String.format("%02x", b));
@@ -52,7 +52,7 @@ public class UserManager {
      *         -3 : Неверные данные (пустой логин/пароль)
      */
     public int register(String username, String password) {
-        // Валидация входных данных
+
         if (username == null || username.trim().isEmpty() || username.length() < 3) {
             Logger.warn("Попытка регистрации с пустым или коротким логином");
             return -3;
@@ -67,8 +67,8 @@ public class UserManager {
         try (Connection conn = dbManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Хэшируем пароль (MD2 по заданию)
-            String hashedPassword = hashPassword(password);
+
+            String hashedPassword = hashPassword(password); // хэширование
 
             stmt.setString(1, username.trim());
             stmt.setString(2, hashedPassword);
@@ -81,7 +81,7 @@ public class UserManager {
             }
 
         } catch (SQLException e) {
-            // PostgreSQL возвращает ошибку уникальности, если пользователь есть
+
             String msg = e.getMessage();
             if (msg.contains("duplicate key") || msg.contains("уникальный") || msg.contains("already exists")) {
                 Logger.warn("Пользователь '{}' уже существует", username);
@@ -129,7 +129,7 @@ public class UserManager {
     }
 
     /**
-     * Проверяет валидность пользователя (для каждого запроса)
+     * Проверяет валидность
      */
     public boolean validateUser(String username, String password) {
         return login(username, password).isPresent();

@@ -7,20 +7,22 @@
     <list default="true" id="26d9b93d-8522-49ac-b0aa-9ad52151143c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/target/lib/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/lib/shared-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/server/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/DatabaseManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/DatabaseManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/UserManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/UserManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/lib/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/lib/shared-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/manager/InputHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/InputHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/HelpCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/InfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/InfoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RegisterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveGreaterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveKeyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveKeyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveLowerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RemoveLowerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ReplaceIfGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ReplaceIfGreaterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/UpdateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/UpdateCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/shared/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/shared/Request.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/target/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/shared-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

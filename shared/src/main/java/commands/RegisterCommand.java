@@ -4,7 +4,7 @@ import commands.Command;
 import java.io.Serializable;
 
 /**
- * Команда регистрации нового пользователя
+ * Команда регистрации
  */
 public class RegisterCommand implements Command, Serializable {
     private static final long serialVersionUID = 1L;
