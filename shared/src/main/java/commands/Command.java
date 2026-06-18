@@ -3,8 +3,7 @@ package commands;
 import java.io.Serializable;
 
 /**
- * Базовый интерфейс для всех команд.
- * Команды - это просто DTO (данные), логика выполнения в CommandExecutor.
+ * интерфейс для всех команд
  */
 public interface Command extends Serializable {
 
@@ -20,5 +19,4 @@ public interface Command extends Serializable {
         return "Нет описания";
     }
 
-    // ✅ УБРАЛ метод execute() - логика теперь в CommandExecutor!
 }

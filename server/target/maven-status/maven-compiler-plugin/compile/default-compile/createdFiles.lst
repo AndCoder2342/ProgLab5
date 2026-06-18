@@ -1,11 +1,8 @@
-server/Config.class
+server/network/UdpServer.class
 manager/ScriptDepthTracker.class
 manager/UserManager.class
 manager/DatabaseManager.class
 server/commands/CommandExecutor.class
-server/reliability/ReliabilityManager$PendingResponse.class
 server/ServerApp.class
 manager/CollectionManager.class
-server/network/UdpServer.class
-manager/XMLManager.class
-server/reliability/ReliabilityManager.class
+manager/ProductRepository.class

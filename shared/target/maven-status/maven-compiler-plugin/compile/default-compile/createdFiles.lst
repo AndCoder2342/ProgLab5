@@ -24,7 +24,6 @@ manager/User.class
 commands/ExitCommand.class
 commands/FilterContainsNameCommand.class
 shared/Response.class
-manager/UnitOfMeasure.class
 commands/RemoveGreaterCommand.class
 commands/UpdateCommand.class
 commands/HelpCommand.class

@@ -1,8 +1,5 @@
 package manager;
 
-import manager.Product;
-import manager.Organization;
-import manager.Coordinates;
 import enums.UnitOfMeasure;
 import java.util.Scanner;
 
@@ -116,7 +113,7 @@ public class InputHelper {
                     System.out.println("  ️  Неверный формат, поле пропущено");
                 }
             } else {
-                // Если пустая строка — ставим 0
+                // Если пустая строка - ставим 0
                 org.setEmployeesCount(0);
             }
 

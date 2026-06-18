@@ -1,10 +1,8 @@
 /Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/manager/CollectionManager.java
 /Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/manager/DatabaseManager.java
+/Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/manager/ProductRepository.java
 /Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/manager/ScriptDepthTracker.java
 /Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/manager/UserManager.java
-/Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/manager/XMLManager.java
-/Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/server/Config.java
 /Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/server/ServerApp.java
 /Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/server/commands/CommandExecutor.java
 /Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/server/network/UdpServer.java
-/Users/ilya/IdeaProjects/ProgLab5/server/src/main/java/server/reliability/ReliabilityManager.java

@@ -1,6 +1,5 @@
 package commands;
 
-import commands.Command;
 import java.io.Serializable;
 
 public class WhoAmICommand implements Command, Serializable {

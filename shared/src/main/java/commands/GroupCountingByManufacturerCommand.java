@@ -1,10 +1,9 @@
 package commands;
 
-import commands.Command;
 import java.io.Serializable;
 
 /**
- * Команда группировки по производителю.
+ * Команда группировки по производителю
  */
 public class GroupCountingByManufacturerCommand implements Command, Serializable {
     private static final long serialVersionUID = 1L;
