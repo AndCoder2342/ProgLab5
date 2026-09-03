@@ -5,21 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26d9b93d-8522-49ac-b0aa-9ad52151143c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/all_code.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer$CommandExecutionTask.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer$RequestProcessingTask.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/ClientApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/client/console/ConsoleReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/console/ConsoleReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/client/network/UdpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/client/network/UdpClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/CollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/CollectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/DatabaseManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/ScriptDepthTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/ScriptDepthTracker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/UserManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/CollectionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/DatabaseManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/DatabaseManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/classes/manager/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/ProductRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/ScriptDepthTracker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/UserManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/UserManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/shared/SerializationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/shared/SerializationUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
