@@ -1,8 +1,10 @@
 server/network/UdpServer.class
 manager/ScriptDepthTracker.class
+server/network/UdpServer$CommandExecutionTask.class
 manager/UserManager.class
 manager/DatabaseManager.class
 server/commands/CommandExecutor.class
 server/ServerApp.class
+server/network/UdpServer$RequestProcessingTask.class
 manager/CollectionManager.class
 manager/ProductRepository.class

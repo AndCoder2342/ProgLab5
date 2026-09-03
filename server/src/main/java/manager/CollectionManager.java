@@ -6,10 +6,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 import org.tinylog.Logger;
 
-/**
- * менеджер коллекции — фасад для работы с продуктами
- * использует ProductRepository для БД и ReadWriteLock для синхронизации
- */
+
 public class CollectionManager {
 
     private Hashtable<Long, Product> collection;
@@ -26,9 +23,7 @@ public class CollectionManager {
         this.lock = new ReentrantReadWriteLock();
     }
 
-    /**
-     * загружает коллекцию из БД при старте сервера
-     */
+
     public void loadFromDatabase() {
         lock.writeLock().lock();
         try {
@@ -43,9 +38,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * добавляет продукт в БД и кэш
-     */
+
     public boolean insert(Product product, int ownerId) {
         lock.writeLock().lock();
         try {
@@ -67,9 +60,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * обновляет продукт (только если владелец)
-     */
+
     public boolean update(Long id, Product newProduct, int ownerId) {
         lock.writeLock().lock();
         try {
@@ -103,9 +94,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * удаляет продукт по ID (только владелец)
-     */
+
     public boolean removeKey(Long key, int ownerId) {
         lock.writeLock().lock();
         try {
@@ -133,9 +122,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * очищает коллекцию (только свои продукты)
-     */
+
     public int clear(int ownerId) {
         lock.writeLock().lock();
         try {
@@ -154,9 +141,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * удаляет продукты больше заданного
-     */
+
     public int removeGreater(Product product, int ownerId) {
         lock.writeLock().lock();
         try {
@@ -179,9 +164,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * удаляет продукты меньше заданного
-     */
+
     public int removeLower(Product product, int ownerId) {
         lock.writeLock().lock();
         try {
@@ -204,9 +187,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * заменяет продукт если новый больше (только владелец)
-     */
+
     public boolean replaceIfGreater(Long key, Product newProduct, int ownerId) {
         lock.writeLock().lock();
         try {
@@ -291,9 +272,7 @@ public class CollectionManager {
         }
     }
 
-    /**
-     * проверяет является ли пользователь владельцем продукта
-     */
+
     private boolean isOwner(Product product, int userId) {
         if (product == null) return false;
 
@@ -311,9 +290,6 @@ public class CollectionManager {
         return isOwner;
     }
 
-    /**
-     * поиск подстроки в любом поле продукта
-     */
     private boolean containsInAnyField(Product product, String substring) {
         if (substring == null || substring.isEmpty()) {
             return true;

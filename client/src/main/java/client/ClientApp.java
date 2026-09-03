@@ -271,7 +271,7 @@ public class ClientApp {
                                         manager.Product p = (manager.Product) item;
                                         if (p.getId().equals(updateId)) {
                                             found = true;
-                                            // Проверяем ownerId
+                                            // Проверяем ownerid
                                             if (p.getOwnerId() == null || p.getOwnerId() == userId) {
                                                 hasRights = true;
                                             }
@@ -339,9 +339,7 @@ public class ClientApp {
         }
     }
 
-    /**
-     * Вывод данных из ответа сервера
-     */
+
     private static void printResponseData(Object data) {
         if (data == null) return;
 

@@ -13,9 +13,7 @@ import java.util.Optional;
 
 public class CommandExecutor {
 
-    /**
-     * Выполняет команду с проверкой авторизации
-     */
+
     public CommandResult execute(Request request, RequestContext context, CollectionManager collectionManager) {
         Command command = request.getCommand();
 
@@ -95,7 +93,6 @@ public class CommandExecutor {
             update id {element} : обновить элемент по id
             remove_key id : удалить элемент по ключу
             clear : очистить коллекцию (только свои элементы)
-            save : сохранить коллекцию в файл
             remove_greater {element} : удалить элементы больше заданного
             remove_lower {element} : удалить элементы меньше заданного
             replace_if_greater {element} : заменить если новый больше
@@ -193,9 +190,7 @@ public class CommandExecutor {
         }
     }
 
-    /**
-     * Обработка команды регистрации
-     */
+
     private CommandResult executeRegister(RegisterCommand cmd, CollectionManager collectionManager) {
         UserManager userManager = collectionManager.getUserManager();
 

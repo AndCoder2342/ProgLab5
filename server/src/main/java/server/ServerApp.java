@@ -57,7 +57,7 @@ public class ServerApp {
         }));
 
         try {
-            // создаём сервер
+
             UdpServer udpServer = new UdpServer(
                     new InetSocketAddress(port),
                     collectionManager

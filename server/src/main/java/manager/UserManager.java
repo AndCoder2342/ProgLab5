@@ -6,9 +6,7 @@ import org.tinylog.Logger;
 import java.sql.*;
 import java.util.Optional;
 
-/**
- * Менеджер пользователей: регистрация, авторизация, хэширование
- */
+
 public class UserManager {
 
     private final DatabaseManager dbManager;
@@ -17,9 +15,7 @@ public class UserManager {
         this.dbManager = dbManager;
     }
 
-    /**
-     * Хэширует пароль используя MD2
-     */
+
 
     public String hashPassword(String password) {
         try {
@@ -39,17 +35,7 @@ public class UserManager {
         }
     }
 
-    /**
-     * Регистрирует нового пользователя
-     * @return ID пользователя или -1 если ошибка
-     */
-    /**
-     * Регистрирует нового пользователя в БД
-     * @return >0 : ID пользователя (успех)
-     *         -1 : Ошибка БД
-     *         -2 : Пользователь уже существует
-     *         -3 : Неверные данные (пустой логин/пароль)
-     */
+
     public int register(String username, String password) {
 
         if (username == null || username.trim().isEmpty() || username.length() < 3) {
@@ -94,10 +80,7 @@ public class UserManager {
         return -1;
     }
 
-    /**
-     * Проверяет логин/пароль
-     * @return Optional с User если успешно, пустой если нет
-     */
+
     public Optional<User> login(String username, String password) {
         String sql = "SELECT id, username, password_hash, created_at FROM users WHERE username = ? AND password_hash = ?";
 
@@ -127,16 +110,12 @@ public class UserManager {
         return Optional.empty();
     }
 
-    /**
-     * Проверяет валидность
-     */
+
     public boolean validateUser(String username, String password) {
         return login(username, password).isPresent();
     }
 
-    /**
-     * Получает пользователя по ID
-     */
+
     public Optional<User> getUserById(int userId) {
         String sql = "SELECT id, username, created_at FROM users WHERE id = ?";
 

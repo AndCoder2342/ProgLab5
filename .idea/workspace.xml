@@ -6,53 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="26d9b93d-8522-49ac-b0aa-9ad52151143c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/console/ConsoleReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/network/UdpClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/client-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/target/lib/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/lib/shared-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/products.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/CollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/CollectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/UserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/XMLManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Config.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/reliability/ReliabilityManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/products.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/XMLManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/products.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/Config.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager$PendingResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/classes/server/reliability/ReliabilityManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/lib/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/lib/shared-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/manager/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/manager/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/ServerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/commands/CommandExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/network/UdpServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/manager/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/manager/ProductRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/commands/CommandExecutor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/server/network/UdpServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/server-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ClearCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/CountGreaterThanManufacturerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/CountGreaterThanManufacturerCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ExitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ExitCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/FilterContainsNameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/FilterContainsNameCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/GroupCountingByManufacturerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/GroupCountingByManufacturerCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/InsertCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/InsertCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/RegisterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/SaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/SaveCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/ShowCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/ShowCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/commands/WhoAmICommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/commands/WhoAmICommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/manager/InputHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/manager/InputHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/manager/UnitOfMeasure.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/CountGreaterThanManufacturerCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/CountGreaterThanManufacturerCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/ExitCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/ExitCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/FilterContainsNameCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/FilterContainsNameCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/GroupCountingByManufacturerCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/GroupCountingByManufacturerCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/InsertCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/InsertCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/RegisterCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/RegisterCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/SaveCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/SaveCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/ShowCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/ShowCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/commands/WhoAmICommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/commands/WhoAmICommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/manager/InputHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/classes/manager/InputHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/classes/manager/UnitOfMeasure.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/target/shared-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/shared/target/shared-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +64,7 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/ilya/IdeaProjects/ProgLab5&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.ClientApp">
+  <component name="RunManager" selected="Application.ServerApp">
     <configuration name="ClientApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="client.ClientApp" />
       <module name="client" />
@@ -126,8 +93,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ClientApp" />
         <item itemvalue="Application.ServerApp" />
+        <item itemvalue="Application.ClientApp" />
       </list>
     </recent_temporary>
   </component>

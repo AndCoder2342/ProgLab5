@@ -4,17 +4,12 @@ import client.network.UdpClient;
 import commands.*;
 import shared.Request;
 import shared.Response;
-import manager.InputHelper;
-import manager.Product;
-import manager.Organization;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.util.Scanner;
 
-/**
- * Сканер команд из консоли и скриптов
- */
+
 public class ConsoleReader {
     private final Scanner scanner;
 
@@ -22,22 +17,12 @@ public class ConsoleReader {
         this.scanner = scanner;
     }
 
-    /**
-     * Выполняет скрипт: читает файл и отправляет команды на сервер
-     */
-    /**
-     * Выполняет скрипт с поддержкой вложенности (макс. 3 уровня)
-     */
-    /**
-     * Выполняет скрипт с поддержкой вложенности (макс. 3 уровня)
-     */
+
     public void executeScript(String filename, UdpClient client) {
         executeScriptRecursive(filename, client, 0);
     }
 
-    /**
-     * Рекурсивное выполнение скрипта
-     */
+
     private void executeScriptRecursive(String filename, UdpClient client, int depth) {
         if (depth >= 3) {
             System.err.println("!!! Превышена максимальная вложенность скриптов (3)");
@@ -67,20 +52,20 @@ public class ConsoleReader {
 
                     System.out.println(">>> " + line);
 
-                    // Рекурсивный execute_script
+                    // рекурсивный
                     if (line.startsWith("execute_script ")) {
                         String nestedFile = line.substring("execute_script ".length()).trim();
                         executeScriptRecursive(nestedFile, client, depth + 1);
                         continue;
                     }
 
-                    // Пропускаем exit
+
                     if ("exit".equals(line)) {
                         System.out.println("!!! exit пропущен в скрипте");
                         continue;
                     }
 
-                    // Обычная команда
+
                     processCommand(line, client);
                 }
             }
@@ -100,13 +85,13 @@ public class ConsoleReader {
         String cmdName = parts[0];
         String args = parts.length > 1 ? parts[1] : null;
 
-        // пропускаем команды, которые нельзя выполнять из скрипта
+
         if ("execute_script".equals(cmdName) || "exit".equals(cmdName)) {
             System.out.println("!!! Команда '" + cmdName + "' пропущена в скрипте");
             return;
         }
 
-        // упрощенная обработка
+
 
         Command command = null;
 
@@ -148,9 +133,7 @@ public class ConsoleReader {
         }
     }
 
-    /**
-     * Создаёт команду без аргументов по имени
-     */
+
     private Command createSimpleCommand(String name) {
         return switch (name) {
             case "help" -> new HelpCommand();

@@ -4,10 +4,7 @@ import java.sql.*;
 import java.util.*;
 import org.tinylog.Logger;
 
-/**
- * репозиторий для работы с БД продуктов
- * инкапсулирует все sql запросы и маппинг
- */
+
 public class ProductRepository {
 
     private final DatabaseManager dbManager;
@@ -16,9 +13,7 @@ public class ProductRepository {
         this.dbManager = dbManager;
     }
 
-    /**
-     * загружает все продукты из БД
-     */
+
     public List<Product> loadAll() {
         List<Product> result = new ArrayList<>();
         String sql = "SELECT * FROM products ORDER BY id";
@@ -40,9 +35,7 @@ public class ProductRepository {
         return result;
     }
 
-    /**
-     * генерирует новый ID через sequence
-     */
+
     public long generateNextId() {
         String sql = "SELECT nextval('products_id_seq')";
 
@@ -59,9 +52,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * вставляет продукт в БД
-     */
+
     public boolean insert(Product product, int ownerId) {
         String sql = """
             INSERT INTO products (
@@ -85,9 +76,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * обновляет продукт в БД
-     */
+
     public boolean update(Product product) {
         String sql = """
             UPDATE products SET
@@ -112,9 +101,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * удаляет продукт по ID и владельцу
-     */
+
     public boolean deleteByIdAndOwner(Long id, int ownerId) {
         String sql = "DELETE FROM products WHERE id=? AND owner_id=?";
 
@@ -131,9 +118,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * удаляет все продукты пользователя
-     */
+
     public int deleteByOwner(int ownerId) {
         String sql = "DELETE FROM products WHERE owner_id=?";
 
@@ -149,9 +134,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * удаляет продукты по списку ID и владельцу
-     */
+
     public int deleteByIds(List<Long> ids, int ownerId) {
         if (ids.isEmpty()) return 0;
 
@@ -171,9 +154,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * подготовка параметров для INSERT (11 параметров)
-     */
+
     private void prepareProductStatementForInsert(PreparedStatement stmt, Product p, int ownerId) throws SQLException {
         int idx = 1;
 
@@ -203,9 +184,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * подготовка параметров для UPDATE (9 параметров)
-     */
+
     private void prepareProductStatementForUpdate(PreparedStatement stmt, Product p) throws SQLException {
         int idx = 1;
 
@@ -233,9 +212,7 @@ public class ProductRepository {
         }
     }
 
-    /**
-     * маппинг ResultSet в Product
-     */
+
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
         product.setId(rs.getLong("id"));

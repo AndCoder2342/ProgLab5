@@ -2,9 +2,7 @@ package server.network;
 
 import manager.CollectionManager;
 import org.tinylog.Logger;
-import shared.Request;
-import shared.Response;
-import shared.SerializationUtil;
+import shared.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,25 +14,23 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.*;
 
-/**
- * UDP сервер использующий многопоточность и ForkJoinPool
- */
+
 public class UdpServer {
 
     private final DatagramChannel channel;
     private final Selector selector;
     private final CollectionManager collectionManager;
 
-    // пулы
-    private final ForkJoinPool forkJoinPool;           // для команд
-    private final ExecutorService responseExecutor;    // для ответов
+
+    private final ForkJoinPool forkJoinPool;
+    private final ExecutorService responseExecutor;
 
     private volatile boolean running = true;
 
     public UdpServer(InetSocketAddress address, CollectionManager collectionManager) throws IOException {
         this.collectionManager = collectionManager;
 
-        // канал в неблокирующем режиме
+
         this.channel = DatagramChannel.open();
         this.channel.configureBlocking(false);
         this.channel.socket().bind(address);
@@ -42,7 +38,7 @@ public class UdpServer {
         this.selector = Selector.open();
         this.channel.register(selector, SelectionKey.OP_READ);
 
-        // инициализация пулов
+
         int cores = Runtime.getRuntime().availableProcessors();
         this.forkJoinPool = new ForkJoinPool(cores);
         this.responseExecutor = Executors.newFixedThreadPool(cores);
@@ -82,10 +78,7 @@ public class UdpServer {
         Logger.info("Сервер остановлен.");
     }
 
-    /**
-     * обработка входящего запроса
-     * отправляем в ForkJoinPool для параллельной обработки
-     */
+
     private void handleRead(SelectionKey key) {
         try {
             DatagramChannel ch = (DatagramChannel) key.channel();
@@ -101,81 +94,94 @@ public class UdpServer {
             Logger.debug("Получен пакет от {} (размер: {} байт)", clientAddr, data.length);
 
 
-            final DatagramChannel finalChannel = ch;
-            final InetSocketAddress finalClientAddr = clientAddr;
-            final byte[] finalData = data;
+
+            forkJoinPool.submit(new RequestProcessingTask(ch, clientAddr, data));
 
 
-            forkJoinPool.submit(() -> {
-                try {
-                    processRequest(finalChannel, finalClientAddr, finalData);
-                } catch (Exception e) {
-                    Logger.error(e, "Ошибка обработки запроса в ForkJoinPool от {}", finalClientAddr);
-                }
-            });
 
         } catch (IOException e) {
             Logger.error(e, "Ошибка чтения пакета");
         }
     }
 
-    /**
-     * Обработка запроса в отдельном потоке ForkJoinPool
-     */
-    private void processRequest(DatagramChannel ch, InetSocketAddress clientAddr, byte[] data) {
-        try {
+    private class RequestProcessingTask extends RecursiveAction {
+        private final DatagramChannel  ch;
+        private final InetSocketAddress clientAddr;
+        private final byte[]data;
 
-            Request request = SerializationUtil.deserialize(data, Request.class);
-            if (request == null) {
-                sendError(ch, clientAddr, "Ошибка десериализации запроса");
-                return;
-            }
-
-            Logger.info("Обработка команды '{}' от {}", request.getCommand().getName(), clientAddr);
-
-
-            server.commands.CommandExecutor executor = new server.commands.CommandExecutor();
-
-
-            shared.RequestContext context = new shared.RequestContext(
-                    request.getRequestId(),
-                    request.getUsername() != null ? request.getUsername() : "anonymous",
-                    clientAddr
-            );
-
-
-            shared.CommandResult result = executor.execute(request, context, collectionManager);
-
-
-            Response response;
-            if (result.isSuccess()) {
-                response = Response.ok(request.getRequestId(), result.getMessage(), result.getData());
-            } else {
-                response = Response.error(request.getRequestId(), result.getMessage());
-            }
-
-
-
-            responseExecutor.submit(() -> {
-                try {
-                    sendResponse(ch, clientAddr, response);
-                } catch (IOException e) {
-                    Logger.error(e, "Ошибка отправки ответа");
+        public RequestProcessingTask(DatagramChannel ch, InetSocketAddress clientAddr, byte[] data) {
+            this.ch = ch;
+            this.clientAddr = clientAddr;
+            this.data = data;
+        }
+        @Override
+        protected void compute() {
+            try {
+                Request request = SerializationUtil.deserialize(data, Request.class);
+                if (request == null) {
+                    sendError(ch, clientAddr, "Ошибка десериализации запроса!");
+                    return;
                 }
-            });
+                Logger.info("Обработка команды '{}' от {}", request.getCommand().getName(), clientAddr);
 
-        } catch (ClassNotFoundException e) {
-            Logger.error(e, "Класс не найден при десериализации");
-            sendError(ch, clientAddr, "Ошибка десериализации");
-        } catch (Exception e) {
-            Logger.error(e, "Непредвиденная ошибка при обработке запроса");
-            sendError(ch, clientAddr, "Внутренняя ошибка сервера: " + e.getMessage());
+                RequestContext context = new RequestContext(
+                        request.getRequestId(),
+                        request.getUsername() != null ? request.getUsername() : "anonim",
+                        clientAddr
+                );
+
+                //создаем подзадачу выполнения команды и запускаем ее через форк()
+                CommandExecutionTask execTask = new CommandExecutionTask(request, context);
+                execTask.fork(); // кидаем в декью
+
+                CommandResult result = execTask.join();
+
+                Response response;
+                if (result.isSuccess()) {
+                    response = Response.ok(request.getRequestId(), result.getMessage(), result.getData());
+                } else {
+                    response = Response.error(request.getRequestId(), result.getMessage());
+                }
+
+                //Fixed Thread Pool дял ответов
+                responseExecutor.submit(() -> {
+                    try {
+                        sendResponse(ch, clientAddr, response);
+                    } catch (IOException e) {
+                        Logger.error(e, "Ошибка отправки ответа");
+                    }
+                });
+            } catch (ClassNotFoundException e) {
+                Logger.error(e, "Класс не найден при десериализации");
+                sendError(ch, clientAddr, "Ошибка десериализации");
+            } catch (Exception e) {
+                Logger.error(e, "Непредвиденная ошибка при обработке запроса");
+                sendError(ch, clientAddr, "Внутренняя ошибка сервера: " + e.getMessage());
+            }
         }
     }
 
-    /**
-     * Отправка ответа клиенту
-     */
+
+    //подзадача fjp
+    private class CommandExecutionTask extends RecursiveTask<CommandResult> {
+        private final Request request;
+        private final RequestContext context;
+
+        public CommandExecutionTask(Request request, RequestContext context) {
+            this.request = request;
+            this.context = context;
+        }
+        @Override
+        protected CommandResult compute() {
+            server.commands.CommandExecutor executor = new server.commands.CommandExecutor();
+            return executor.execute(request, context, collectionManager);
+        }
+    }
+
+
+    //отправка ответа клиенту
+
+
     private void sendResponse(DatagramChannel ch, InetSocketAddress clientAddr, Response response) throws IOException {
         byte[] responseData = SerializationUtil.serialize(response);
         ByteBuffer responseBuffer = ByteBuffer.wrap(responseData);
@@ -183,9 +189,9 @@ public class UdpServer {
         Logger.debug("Ответ отправлен клиенту {}", clientAddr);
     }
 
-    /**
-     * Отправка сообщения об ошибке
-     */
+
+
+
     private void sendError(DatagramChannel ch, InetSocketAddress addr, String msg) {
         try {
             Response error = Response.error(java.util.UUID.randomUUID(), msg);
@@ -195,14 +201,12 @@ public class UdpServer {
         }
     }
 
-    /**
-     * Корректная остановка сервера
-     */
+
     public void stop() {
         Logger.info("Остановка сервера...");
         running = false;
 
-        // останока пулов
+
         forkJoinPool.shutdown();
         responseExecutor.shutdown();
 

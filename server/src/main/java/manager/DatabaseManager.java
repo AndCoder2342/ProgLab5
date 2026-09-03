@@ -10,9 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-/**
- * Менеджер подключения к базе данных PostgreSQL
- */
 public class DatabaseManager {
 
     private static final String CONFIG_FILE = "database.properties";
@@ -35,9 +32,7 @@ public class DatabaseManager {
         return instance;
     }
 
-    /**
-     * Загружает настройки из database.properties
-     */
+
     private void loadConfig() {
         String host = System.getenv("DB_HOST");
         if (host == null || host.isEmpty()) {
@@ -76,17 +71,12 @@ public class DatabaseManager {
         Logger.info("Загружены настройки БД: jdbc:postgresql://{}:{}/{}", host, port, database);
     }
 
-    /**
-     * Возвращает новое соединение с БД
-     */
+
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
 
-    /**
-     * Инициализирует схему БД (выполняет schema.sql)
-     * Вызывать один раз при старте сервера
-     */
+
     public void initializeSchema() {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
@@ -114,9 +104,7 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * Читает содержимое schema.sql из ресурсов
-     */
+
     private String readSchemaFile() throws IOException {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(SCHEMA_FILE)) {
             if (input == null) {
@@ -126,9 +114,7 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * Проверяет подключение к БД
-     */
+
     public boolean testConnection() {
         try (Connection conn = getConnection()) {
             return conn.isValid(5);
